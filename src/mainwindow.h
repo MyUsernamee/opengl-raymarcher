@@ -5,7 +5,6 @@ struct MainWindow {
 	size_t frame;
 
 	// boolean - success
-	bool init_window();
-	bool main_loop();
+	bool init();
 	void cleanup();
 };

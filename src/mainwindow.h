@@ -5,7 +5,7 @@ struct MainWindow {
 	GLFWwindow* window;
 	size_t frame;
 
-	char **shader_sources;
+	std::string*shader_sources;
 	unsigned int* shader_lengths;
 
 	// boolean - success

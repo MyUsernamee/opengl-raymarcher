@@ -14,7 +14,7 @@ bool MainWindow::init_window() {
 	//glfwWindowHint(GLFW_RESIZABLE, 0);
 
 	window = glfwCreateWindow(800, 400, "Raymarcher", nullptr, nullptr);
-	shader_sources = new char *[MAX_SHADER_COUNT];
+	shader_sources = new std::string[MAX_SHADER_COUNT];
 	shader_lengths = new unsigned int[MAX_SHADER_COUNT];
 
 	return window != nullptr;
@@ -36,7 +36,7 @@ bool MainWindow::load_shaders() {
 
 	input_stream >> file_data;
 
-	shader_sources[0] = new char[file_data]
+	shader_sources[0] = file_data;
 }
 
 // returns true on success, false otherwise

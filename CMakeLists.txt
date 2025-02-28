@@ -1,9 +1,10 @@
 cmake_minimum_required(VERSION 3.28)
 
-find_package(OpenGL)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+include_directories(include)
 
 # dont really understand what this does ngl
 project(opengl-raymarcher)

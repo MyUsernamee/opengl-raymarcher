@@ -1,4 +1,4 @@
-#include "../include/glad/glad.h"
+#include "../include/glad/glad.h" // Generated file that loads OpenGL and imports all extensions
 #include <GLFW/glfw3.h>
 
 int main() {

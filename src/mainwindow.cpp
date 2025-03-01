@@ -13,13 +13,11 @@ bool MainWindow::init_window() {
 	window = glfwCreateWindow(800, 400, "Raymarcher", nullptr, nullptr);
 	glfwMakeContextCurrent(window);
 
-#ifdef __unix__
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		DEBUG_PRINT("UNIX: Failed to load glad");
 		return false;
 	}
-#endif
 
 	if (!init_shaders())
 	    DEBUG_PRINT("Failed to load shaders, see reason above.");

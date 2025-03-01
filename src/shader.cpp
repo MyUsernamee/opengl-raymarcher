@@ -1,9 +1,5 @@
 #include "shader.h"
 
-#include "debug.h"
-#include <cstring>
-#include <vector>
-
 ShaderProgram::ShaderProgram(){
 	program_id = 0;
 }

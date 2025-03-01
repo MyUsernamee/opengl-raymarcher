@@ -1,8 +1,9 @@
 #pragma once
 
-#ifdef __unix__
-#include <glad/glad.h>
-#endif
+#include "debug.h"
+#include "glad/glad.h"
+
+#include <cstring>
 #include <string>
 #include <vector>
 

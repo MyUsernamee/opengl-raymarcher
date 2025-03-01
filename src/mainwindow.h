@@ -2,9 +2,8 @@
 
 #include "config.h"
 #include "debug.h"
-#ifdef __unix__ 
 #include "glad/glad.h"
-#endif
+
 #include <GLFW/glfw3.h>
 #include <vector>
 #include <math.h>

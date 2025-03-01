@@ -10,12 +10,12 @@ public:
 	Game();
 
 	static Game *get_instance();
-	
-	void init_game();
+
+	bool init_game();
 	void run_main_loop();
 
 private:
 
 	static Game *instance;
-	Window * window;
+	Window window;
 };

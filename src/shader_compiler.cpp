@@ -69,17 +69,36 @@ ShaderCompiler::~ShaderCompiler() {
 		return;
 }
 
-void ShaderCompiler::setUniform1f(const char* name, float value) {
-	if (!in_use)
-		return;
-
-	GLint location = glGetUniformLocation(program_id, name);
-	setUniform1f(location, value);
+#define COMMA ,
+#define uniform_function_definition(T, params, ...)                  \
+void ShaderCompiler::setUniform##T(const char* name, params) {         \
+    if (!in_use)                                                       \
+        return;                                                        \
+    GLint location = glGetUniformLocation(program_id, name);           \
+    setUniform##T(location, __VA_ARGS__);                              \
+}                                                                      \
+                                                                       \
+void ShaderCompiler::setUniform##T(GLint location, params) {           \
+    if (!in_use)                                                       \
+        return;                                                        \
+    glUniform##T(location, __VA_ARGS__);                               \
 }
 
-void ShaderCompiler::setUniform1f(GLint location, float value) {
-	if (!in_use)
-		return;
+uniform_function_definition(1f, float value, value)
+uniform_function_definition(2f, float v0 COMMA float v1, v0 COMMA v1)
+uniform_function_definition(3f, float v0 COMMA float v1 COMMA float v2, v0 COMMA v1 COMMA v2)
+uniform_function_definition(4f, float v0 COMMA float v1 COMMA float v2 COMMA float v3, v0 COMMA v1 COMMA v2 COMMA v3)
 
-	glUniform1f(location, value);
-}
+uniform_function_definition(1i, int value, value)
+uniform_function_definition(2i, int v0 COMMA int v1, v0 COMMA v1)
+uniform_function_definition(3i, int v0 COMMA int v1 COMMA int v2, v0 COMMA v1 COMMA v2)
+uniform_function_definition(4i, int v0 COMMA int v1 COMMA int v2 COMMA int v3, v0 COMMA v1 COMMA v2 COMMA v3)
+
+uniform_function_definition(1ui, unsigned int value, value)
+uniform_function_definition(2ui, unsigned int v0 COMMA unsigned int v1, v0 COMMA v1)
+uniform_function_definition(3ui, unsigned int v0 COMMA unsigned int v1 COMMA unsigned int v2, v0 COMMA v1 COMMA v2)
+uniform_function_definition(4ui, unsigned int v0 COMMA unsigned int v1 COMMA unsigned int v2 COMMA unsigned int v3, v0 COMMA v1 COMMA v2 COMMA v3)
+
+uniform_function_definition(Matrix2fv, GLsizei count COMMA GLboolean transpose COMMA const float* matrix, count COMMA transpose COMMA matrix)
+uniform_function_definition(Matrix3fv, GLsizei count COMMA GLboolean transpose COMMA const float* matrix, count COMMA transpose COMMA matrix)
+uniform_function_definition(Matrix4fv, GLsizei count COMMA GLboolean transpose COMMA const float* matrix, count COMMA transpose COMMA matrix)

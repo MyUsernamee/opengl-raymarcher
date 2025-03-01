@@ -10,7 +10,7 @@ float sdf(vec3 pos) {
     vec3 z = pos;
     float dr = 1.0;
     float r = 0.0;
-    const int iterations = 64;
+    const int iterations = 256;
     const float power = 8.0;
     
     for (int i = 0; i < iterations; i++) {
@@ -19,7 +19,7 @@ float sdf(vec3 pos) {
         
         // convert to spherical coordinates
         float theta = acos(z.z / r) + time;
-        float phi = atan(z.y, z.x);
+        float phi = atan(z.y, z.x) + time;
         dr = pow(r, power - 1.0) * power * dr + 1.0;
         
         // scale and rotate the point

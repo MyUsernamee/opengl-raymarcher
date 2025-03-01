@@ -10,6 +10,7 @@
 struct Window {
 	GLFWwindow* window;
 	size_t frame;
+	ShaderCompiler shader_program;
 
 	// boolean - success
 	bool init_window();

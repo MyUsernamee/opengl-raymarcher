@@ -26,13 +26,13 @@ bool Window::init_window() {
 }
 
 bool Window::init_shaders() {
-	ShaderCompiler shader;
-	shader.add_shader(GL_VERTEX_SHADER, SHADER_VS_TEST);
-	shader.add_shader(GL_FRAGMENT_SHADER, SHADER_PS_TEST);
+	shader_program.add_shader(GL_VERTEX_SHADER, SHADER_VS_TEST);
+	shader_program.add_shader(GL_FRAGMENT_SHADER, SHADER_PS_TEST);
 
-	if (!shader.compile()) return false;
+	if (!shader_program.compile()) return false;
 	
-	shader.use();
+	shader_program.use();
+
 	return true;
 }
 

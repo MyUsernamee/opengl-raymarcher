@@ -18,7 +18,6 @@ Game *Game::get_instance() { return Game::instance; }
 // Most 
 bool Game::init_game() {
 	
-	window = Window();
 	if (!window.init_window()) {
 		DEBUG_PRINT("Failed to create window.");
 		return false;

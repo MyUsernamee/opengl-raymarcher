@@ -61,8 +61,6 @@ void ShaderCompiler::use() {
 }
 
 ShaderCompiler::~ShaderCompiler() { 
-	glDeleteProgram(program_id); 
-	for (auto shader_id: shader_ids) {
-		glDeleteShader(shader_id);
-	}
+	if(!compiled) // Causes segmentation fault, perhaps cleaning is already being handled?
+		return;
 }

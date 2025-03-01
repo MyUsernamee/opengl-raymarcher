@@ -1,7 +1,7 @@
 #include "window.h"
 
-#include "vs_test.h"
-#include "ps_test.h"
+#include "vs_test.glsl"	// SHADER_VS_TEST
+#include "ps_test.glsl" // SHADER_PS_TEST
 
 // returns true on success, false otherwise
 bool Window::init_window() {

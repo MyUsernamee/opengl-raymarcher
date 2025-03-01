@@ -1,5 +1,5 @@
 ﻿---
-IndentWidth: '4'
 NamespaceIndentation: All
 UseTab: Always
+tabSize: '4'
 ...

@@ -24,6 +24,10 @@ struct ShaderCompiler {
 	std::vector<GLuint> shader_ids;
 	std::vector<Shader> shader_sources;
 	bool compiled = false;
+	bool in_use = false;
+
+	void setUniform1f(const char* name, float value);
+	void setUniform1f(GLint location, float value);
 
 	// Add a shader source and type to the shader program
 	void add_shader(GLenum type, const char* source);

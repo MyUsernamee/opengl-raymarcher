@@ -42,9 +42,10 @@ void Game::run_main_loop() {
 		glEnd();
 
 		// MAIN LOOP HERE TODO: Create a loop function that actually contains all of the game data and all that.
+		window.shader_program.setUniform1f("time", glfwGetTime());
 
-	    glfwSwapBuffers(window.window);
-	    glfwPollEvents();
+		glfwSwapBuffers(window.window);
+		glfwPollEvents();
 	
 	}
 

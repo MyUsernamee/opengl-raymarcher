@@ -57,10 +57,29 @@ void ShaderCompiler::use() {
 		return;
 	}
 
-	glUseProgram(program_id); 
+	if (in_use)
+		return;
+
+	glUseProgram(program_id);
+	in_use = true;
 }
 
 ShaderCompiler::~ShaderCompiler() { 
 	if(!compiled) // Causes segmentation fault, perhaps cleaning is already being handled?
 		return;
+}
+
+void ShaderCompiler::setUniform1f(const char* name, float value) {
+	if (!in_use)
+		return;
+
+	GLint location = glGetUniformLocation(program_id, name);
+	setUniform1f(location, value);
+}
+
+void ShaderCompiler::setUniform1f(GLint location, float value) {
+	if (!in_use)
+		return;
+
+	glUniform1f(location, value);
 }

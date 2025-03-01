@@ -2,6 +2,8 @@
 in vec2 screen_uv;
 out vec4 FragColor;
 
+uniform float time;
+
 #define MAX 9999999999999.0
 #define SAFE_DISTANCE 0.0001
 float sdf(vec3 pos) {
@@ -16,7 +18,7 @@ float sdf(vec3 pos) {
         if (r > 2.0) break;
         
         // convert to spherical coordinates
-        float theta = acos(z.z / r);
+        float theta = acos(z.z / r) + time;
         float phi = atan(z.y, z.x);
         dr = pow(r, power - 1.0) * power * dr + 1.0;
         

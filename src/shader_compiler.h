@@ -18,6 +18,7 @@ struct Shader {
 struct ShaderCompiler {
 	// Creates a shader program that can be used when drawing geometry.
 	ShaderCompiler();
+	~ShaderCompiler();
 
 	GLuint program_id;
 	std::vector<GLuint> shader_ids;

@@ -59,3 +59,10 @@ void ShaderCompiler::use() {
 
 	glUseProgram(program_id); 
 }
+
+ShaderCompiler::~ShaderCompiler() { 
+	glDeleteProgram(program_id); 
+	for (auto shader_id: shader_ids) {
+		glDeleteShader(shader_id);
+	}
+}

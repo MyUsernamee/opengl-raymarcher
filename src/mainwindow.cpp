@@ -38,7 +38,7 @@ bool MainWindow::init_shaders() {
 
 	auto shader = glCreateShader(GL_FRAGMENT_SHADER);
 	auto length = strlen(pixel_shaders.at(0)); 
-	glShaderSource(1, 1, &pixel_shaders.at(0), (GLint *)&length);
+	glShaderSource(shader, 1, (const GLchar* const*)pixel_shaders.data(), (GLint *)&length);
 
 	glCompileShader(shader);
 
@@ -54,7 +54,7 @@ bool MainWindow::init_shaders() {
 		glGetShaderInfoLog(shader, length, &length, &info[0]);
 		info.push_back(0); // Add null terminator
 
-		DEBUG_PRINT("Error compiling shader: %s", &info[0]);
+		DEBUG_PRINT("Error compiling shader: %s\n\nSource: %s", &info[0], pixel_shaders.at(0));
 		return false;
 	}
 

@@ -31,10 +31,13 @@ bool MainWindow::init_window() {
 }
 
 bool MainWindow::init_shaders() {
-	ShaderProgram shader(SHADER_PS_TEST, SHADER_VS_TEST);
-	if(!shader.compile())
-		return false;
-	shader.use();
+  ShaderProgram *shader = new ShaderProgram();
+  shader->add_shader(GL_VERTEX_SHADER, SHADER_VS_TEST);
+  shader->add_shader(GL_FRAGMENT_SHADER, SHADER_PS_TEST);
+  if (!shader->compile())
+    return false;
+  shader->use();
+  return true;
 }
 
 void MainWindow::cleanup() {

@@ -3,20 +3,23 @@
 #ifdef __unix__
 #include <glad/glad.h>
 #endif
+#include <string>
+#include <vector>
+
 
 class ShaderProgram {
 
 public:
 	// Creates a shader program that can be used when drawing geometry.
-	ShaderProgram(const char *vertex_shader, const char *pixel_shader);
-
-	const char *vertex_shader_source;
-	const char *pixel_shader_source;
+	ShaderProgram();
 
 	GLuint program_id;
-	GLuint shader_id;
-
+	std::vector<GLuint> shader_ids;
+	std::vector<std::tuple<GLenum, std::string>> shader_sources;
 	bool compiled = false;
+
+	// Add a shader source and type to the shader program
+	void add_shader(GLenum type, std::string source);
 
 	// Compiles the program and returns true is it succseeded
 	bool compile();

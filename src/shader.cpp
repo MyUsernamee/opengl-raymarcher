@@ -4,52 +4,51 @@
 #include <cstring>
 #include <vector>
 
-ShaderProgram::ShaderProgram(const char* vertex_shader, const char* pixel_shader) {
-	vertex_shader_source = vertex_shader;
-	pixel_shader_source = pixel_shader;
+ShaderProgram::ShaderProgram(){
 	program_id = 0;
-	shader_id = 0;
+}
+
+void ShaderProgram::add_shader(GLenum shader_type, std::string source) {
+	shader_sources.push_back(std::make_tuple(shader_type, source));
 }
 
 bool ShaderProgram::compile() {
 
-	auto shader = glCreateShader(GL_FRAGMENT_SHADER);
-	auto px_length = strlen(pixel_shader_source);
-	auto vt_length = strlen(vertex_shader_source);
-
-	const char *sources[2] = {pixel_shader_source, vertex_shader_source};
-	const int lengths[2] = {px_length, vt_length};
-
-	// Tell open gl to compile these source files
-	glShaderSource(shader, 2, sources, lengths);
+	auto program = glCreateProgram();
 	
-	// Actually compile them
-	glCompileShader(shader);
+	for (auto shader_source: shader_sources) {
 
-	int did_compile = 0;
-	glGetShaderiv(shader, GL_COMPILE_STATUS, &did_compile); // Get if the shader compiled
-	if (!did_compile) {
-		// Get the length of error info.
-		int length = 0;
-		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
+		auto shader = glCreateShader(std::get<0>(shader_source));
+		auto source = (std::get<1>(shader_source).c_str());
+		glShaderSource(shader, 1, &source, NULL);
 
-		// Get the actual info
-		std::vector<GLchar> info(length);
-		glGetShaderInfoLog(shader, length, &length, &info[0]);
-		info.push_back(0); // Add null terminator
+		// Actually compile them
+		glCompileShader(shader);
 
-		DEBUG_PRINT("Error compiling shader: %s", &info[0]);
-		return false;
+		int did_compile = 0;
+		glGetShaderiv(shader, GL_COMPILE_STATUS, &did_compile); // Get if the shader compiled
+		if (!did_compile) {
+			// Get the length of error info.
+			int length = 0;
+			glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
+
+			// Get the actual info
+			std::vector<GLchar> info(length);
+			glGetShaderInfoLog(shader, length, &length, &info[0]);
+			info.push_back(0); // Add null terminator
+
+			DEBUG_PRINT("Error compiling shader: %s", &info[0]);
+			return false;
+		}
+
+		glAttachShader(program, shader);
+
+		shader_ids.push_back(shader);
 	}
 
-	
 	// Create the actual program and save it
-	auto program = glCreateProgram();
-	glAttachShader(program, shader);
 	glLinkProgram(program);
-
 	program_id = program;
-	shader_id = shader;
 
 	compiled = true;
 

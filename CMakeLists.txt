@@ -21,7 +21,7 @@ foreach(shader_file ${SHADER_FILES})
 	string(TOUPPER ${shader_name} shader_name_upper)	# toupper
 
 	file(READ ${shader_file} shader_code)
-    set(header_content "constexpr const char SHADER_${shader_name_upper}[] = R\"(\n${shader_code}\n)\";")
+    set(header_content "#define SHADER_${shader_name_upper} R\"(\n${shader_code}\n)\"")
     file(WRITE ${SHADER_OUT_DIR}/${shader_name}.glsl "${header_content}")
 endforeach()
 

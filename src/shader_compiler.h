@@ -7,23 +7,31 @@
 #include <string>
 #include <vector>
 
+struct Shader {
+	GLenum shader_type;
+	const char* source;
 
-class ShaderProgram {
+	Shader(GLenum shader_type, const char* source) {
+		this->shader_type = shader_type;
+		this->source = source;
+	}
+};
 
-public:
+struct ShaderCompiler {
 	// Creates a shader program that can be used when drawing geometry.
-	ShaderProgram();
+	ShaderCompiler();
 
 	GLuint program_id;
 	std::vector<GLuint> shader_ids;
-	std::vector<std::tuple<GLenum, std::string>> shader_sources;
+	std::vector<Shader> shader_sources;
 	bool compiled = false;
 
 	// Add a shader source and type to the shader program
-	void add_shader(GLenum type, std::string source);
+	void add_shader(GLenum type, const char* source);
 
 	// Compiles the program and returns true is it succseeded
 	bool compile();
+
 	// Use the program for the next draw call.
 	void use();
 };

@@ -1,9 +1,7 @@
-#include "mainwindow.h"
+#include "main_window.h"
 
-#include <cstring>
 #include "vs_test.h"
 #include "ps_test.h"
-#include "shader.h"
 
 // returns true on success, false otherwise
 bool MainWindow::init_window() {
@@ -29,13 +27,14 @@ bool MainWindow::init_window() {
 }
 
 bool MainWindow::init_shaders() {
-  ShaderProgram *shader = new ShaderProgram();
-  shader->add_shader(GL_VERTEX_SHADER, SHADER_VS_TEST);
-  shader->add_shader(GL_FRAGMENT_SHADER, SHADER_PS_TEST);
-  if (!shader->compile())
-    return false;
-  shader->use();
-  return true;
+	ShaderCompiler shader;
+	shader.add_shader(GL_VERTEX_SHADER, SHADER_VS_TEST);
+	shader.add_shader(GL_FRAGMENT_SHADER, SHADER_PS_TEST);
+
+	if (!shader.compile()) return false;
+	
+	shader.use();
+	return true;
 }
 
 void MainWindow::cleanup() {

@@ -8,14 +8,12 @@
 #include <vector>
 #include <math.h>
 #include <iostream>
-#include <fstream>
+
+#include "shader_compiler.h"
 
 struct MainWindow {
 	GLFWwindow* window;
 	size_t frame;
-
-	std::vector<const char*> pixel_shaders;
-	std::vector<const char*> vertex_shaders;
 
 	// boolean - success
 	bool init_window();

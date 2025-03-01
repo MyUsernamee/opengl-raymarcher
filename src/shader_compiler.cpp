@@ -1,26 +1,21 @@
-#include "shader.h"
+#include "shader_compiler.h"
 
-#include "debug.h"
-#include <cstring>
-#include <vector>
-
-ShaderProgram::ShaderProgram(){
+ShaderCompiler::ShaderCompiler() {
 	program_id = 0;
 }
 
-void ShaderProgram::add_shader(GLenum shader_type, std::string source) {
-	shader_sources.push_back(std::make_tuple(shader_type, source));
+void ShaderCompiler::add_shader(GLenum shader_type, const char* source) {
+	shader_sources.push_back(Shader(shader_type, source));
 }
 
-bool ShaderProgram::compile() {
+bool ShaderCompiler::compile() {
 
 	auto program = glCreateProgram();
 	
-	for (auto shader_source: shader_sources) {
+	for (Shader shader_source: shader_sources) {
 
-		auto shader = glCreateShader(std::get<0>(shader_source));
-		auto source = (std::get<1>(shader_source).c_str());
-		glShaderSource(shader, 1, &source, NULL);
+		GLuint shader = glCreateShader(shader_source.shader_type);
+		glShaderSource(shader, 1, &shader_source.source, NULL);
 
 		// Actually compile them
 		glCompileShader(shader);
@@ -55,7 +50,7 @@ bool ShaderProgram::compile() {
 	return true;
 }
 
-void ShaderProgram::use() {
+void ShaderCompiler::use() {
 	
 	if (!compiled) {
 		DEBUG_PRINT("Attemping to use uncompiled shader program.");

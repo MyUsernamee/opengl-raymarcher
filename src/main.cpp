@@ -1,8 +1,8 @@
-#include "mainwindow.h"
+#include "window.h"
 #include <stdio.h>
 
 int main() {
-    MainWindow window;
+    Window window;
     if (!window.init_window()) {
 		printf("FAILED TO CREATE GLFW WINDOW!\n");
 		return 1;

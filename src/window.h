@@ -2,21 +2,14 @@
 
 #include "config.h"
 #include "debug.h"
-#ifdef __unix__ 
 #include "glad/glad.h"
-#endif
-#include <GLFW/glfw3.h>
-#include <vector>
-#include <math.h>
-#include <iostream>
-#include <fstream>
+#include "shader_compiler.h"
 
-struct MainWindow {
+#include <GLFW/glfw3.h>
+
+struct Window {
 	GLFWwindow* window;
 	size_t frame;
-
-	std::vector<const char*> pixel_shaders;
-	std::vector<const char*> vertex_shaders;
 
 	// boolean - success
 	bool init_window();

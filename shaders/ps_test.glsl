@@ -5,12 +5,12 @@ out vec4 FragColor;
 uniform float time;
 
 #define MAX 9999999999999.0
-#define SAFE_DISTANCE 0.0001
+#define SAFE_DISTANCE 0.000001
 float sdf(vec3 pos) {
     vec3 z = pos;
     float dr = 1.0;
     float r = 0.0;
-    const int iterations = 256;
+    const int iterations = 64;
     const float power = 8.0;
     
     for (int i = 0; i < iterations; i++) {
@@ -18,8 +18,8 @@ float sdf(vec3 pos) {
         if (r > 2.0) break;
         
         // convert to spherical coordinates
-        float theta = acos(z.z / r) + time;
-        float phi = atan(z.y, z.x) + time;
+        float theta = acos(z.z / r) + time / 10;
+        float phi = atan(z.y, z.x) + time / 10;
         dr = pow(r, power - 1.0) * power * dr + 1.0;
         
         // scale and rotate the point
@@ -61,7 +61,7 @@ int march(vec3 start, vec3 end) {
 void main() {
 
 	vec3 ray_direction = normalize(vec3(1.0, screen_uv.x, screen_uv.y));
-	vec3 start = vec3(-2.0, 0.0, 0.0);
+	vec3 start = vec3(-1.2, 0.0, 0.0);
 	int steps = march(start, start + ray_direction * 10.0);
 	FragColor = vec4(1.0 / pow(steps, 0.25));
 

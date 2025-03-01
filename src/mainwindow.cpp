@@ -10,6 +10,11 @@ bool MainWindow::init_window() {
 
 	window = glfwCreateWindow(800, 400, "Raymarcher", nullptr, nullptr);
 	
+	if (!load_shaders())
+	    DEBUG_PRINT("Failed to load shaders, see reason above.");
+
+	//if (!compile_shaders())
+	//    DEBUG_PRINT("Failed to compile shaders.");
 
 	return window != nullptr;
 }

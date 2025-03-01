@@ -58,6 +58,13 @@ bool MainWindow::init_shaders() {
 		return false;
 	}
 
+	
+	auto program = glCreateProgram();
+	glAttachShader(program, shader);
+	glLinkProgram(program);
+
+	glUseProgram(program);
+
 	return true;
 }
 

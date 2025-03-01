@@ -1,6 +1,6 @@
 #pragma once
 
-#include "mainwindow.h"
+#include "window.h"
 
 // This is a singleton class that store the game state
 class Game {
@@ -17,5 +17,5 @@ public:
 private:
 
 	static Game *instance;
-	MainWindow * window;
+	Window * window;
 };

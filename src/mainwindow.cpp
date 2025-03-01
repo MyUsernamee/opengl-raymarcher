@@ -10,10 +10,11 @@ bool MainWindow::init_window() {
 
 	window = glfwCreateWindow(800, 400, "Raymarcher", nullptr, nullptr);
 	
-#ifdef __unix
-	if (!gladLoadGL(glfwGetProcAddress))
+#ifdef __unix__
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		DEBUG_PRINT("UNIX: Failed to load glad");
+		return false;
 	}
 #endif
 
@@ -29,6 +30,7 @@ bool MainWindow::init_window() {
 bool MainWindow::init_shaders() {
 	vertex_shaders.push_back(SHADER_VS_TEST);
 	pixel_shaders.push_back(SHADER_PS_TEST);
+
 
 	return true;
 }

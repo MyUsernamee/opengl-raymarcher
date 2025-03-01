@@ -3,7 +3,7 @@
 #include "config.h"
 #include "debug.h"
 #ifdef __unix__ 
-#include "glad/gl.h"
+#include "glad/glad.h"
 #endif
 #include <GLFW/glfw3.h>
 #include <vector>

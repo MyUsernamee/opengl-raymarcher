@@ -16,7 +16,7 @@ bool MainWindow::init_window() {
 
 	window = glfwCreateWindow(800, 400, "Raymarcher", nullptr, nullptr);
 	shader_sources = new std::string[MAX_SHADER_COUNT];
-	shader_c_str = new char *[MAX_SHADER_COUNT];
+	shader_c_str = new const char *[MAX_SHADER_COUNT];
 	shader_lengths = new unsigned int[MAX_SHADER_COUNT];
 
 	if (!load_shaders())
@@ -34,7 +34,7 @@ bool MainWindow::load_shaders() {
 	std::ifstream input_stream;
 	std::string file_data;
 
-	input_stream.open("shaders/test.frag");
+	input_stream.open("../shaders/test.frag");
 
 	if(!input_stream.is_open())
 	{
@@ -53,11 +53,13 @@ bool MainWindow::load_shaders() {
 
 bool MainWindow::compile_shaders() { 
 	
-	// Hello
-
 	auto shader_id = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(shader_id, 1, shader_c_str, (const GLint*)shader_lengths);
+
+	DEBUG_PRINT("Created Shader");
+
 	glCompileShader(shader_id);
+
 
 	GLint isCompiled = 0;
 	glGetShaderiv(shader_id, GL_COMPILE_STATUS, &isCompiled);
@@ -75,6 +77,8 @@ bool MainWindow::compile_shaders() {
 	    glDeleteShader(shader_id);
 	    return false;
 	}
+
+
 
 	return true;
 }

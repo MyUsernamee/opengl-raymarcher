@@ -3,8 +3,6 @@
 #include "debug.h"
 #include "glad/glad.h"
 
-#include <cstring>
-#include <string>
 #include <vector>
 
 struct Shader {

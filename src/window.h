@@ -3,15 +3,11 @@
 #include "config.h"
 #include "debug.h"
 #include "glad/glad.h"
-
-#include <GLFW/glfw3.h>
-#include <vector>
-#include <math.h>
-#include <iostream>
-
 #include "shader_compiler.h"
 
-struct MainWindow {
+#include <GLFW/glfw3.h>
+
+struct Window {
 	GLFWwindow* window;
 	size_t frame;
 

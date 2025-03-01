@@ -1,18 +1,17 @@
-#include "main_window.h"
+#include "window.h"
 
 #include "vs_test.h"
 #include "ps_test.h"
 
 // returns true on success, false otherwise
-bool MainWindow::init_window() {
+bool Window::init_window() {
 	glfwInit();
 	//glfwWindowHint(GLFW_RESIZABLE, 0);
 
 	window = glfwCreateWindow(800, 400, "Raymarcher", nullptr, nullptr);
 	glfwMakeContextCurrent(window);
 
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-	{
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		DEBUG_PRINT("UNIX: Failed to load glad");
 		return false;
 	}
@@ -26,7 +25,7 @@ bool MainWindow::init_window() {
 	return window != nullptr;
 }
 
-bool MainWindow::init_shaders() {
+bool Window::init_shaders() {
 	ShaderCompiler shader;
 	shader.add_shader(GL_VERTEX_SHADER, SHADER_VS_TEST);
 	shader.add_shader(GL_FRAGMENT_SHADER, SHADER_PS_TEST);
@@ -37,7 +36,7 @@ bool MainWindow::init_shaders() {
 	return true;
 }
 
-void MainWindow::cleanup() {
+void Window::cleanup() {
 	glfwDestroyWindow(window);
 	glfwTerminate();
 }

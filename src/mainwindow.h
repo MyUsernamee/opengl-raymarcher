@@ -2,6 +2,9 @@
 
 #include "config.h"
 #include "debug.h"
+#ifdef __unix__ 
+#include "glad/gl.h"
+#endif
 #include <GLFW/glfw3.h>
 #include <vector>
 #include <math.h>
@@ -17,6 +20,6 @@ struct MainWindow {
 
 	// boolean - success
 	bool init_window();
-	bool load_shaders();
+	bool init_shaders();
 	void cleanup();
 };

@@ -3,6 +3,8 @@ in vec2 screen_uv;
 out vec4 FragColor;
 
 uniform float time;
+uniform mat3x3 rotation;
+uniform vec3 eye_pos;
 
 #define MAX 9999999999999.0
 #define SAFE_DISTANCE 0.000001
@@ -60,9 +62,9 @@ int march(vec3 start, vec3 end) {
 
 void main() {
 
-	vec3 ray_direction = normalize(vec3(1.0, screen_uv.x, screen_uv.y));
-	vec3 start = vec3(-1.2, 0.0, 0.0);
-	int steps = march(start, start + ray_direction * 10.0);
+	vec3 ray_direction = (rotation * normalize(vec3(1.0, screen_uv.x * 2.0 - 1.0, 1.0 - 2.0 * screen_uv.y)));
+	//FragColor = vec4(ray_direction, 1.0);
+	int steps = march(eye_pos, eye_pos + ray_direction * 10.0);
 	FragColor = vec4(1.0 / pow(steps, 0.25));
 
 }

@@ -6,10 +6,11 @@
 // returns true on success, false otherwise
 bool Window::init_window() {
 	glfwInit();
-	//glfwWindowHint(GLFW_RESIZABLE, 0);
+	glfwWindowHint(GLFW_RESIZABLE, 0);	// TODO: fix me
 
 	window = glfwCreateWindow(800, 400, "Raymarcher", nullptr, nullptr);
 	glfwMakeContextCurrent(window);
+	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		DEBUG_PRINT("ERROR: Failed to load glad");
@@ -106,7 +107,7 @@ bool Window::compile_shaders() {
 
 // sometimes the best solutions are the simplest
 #define quick_set_uniform(main_type, gl_func, ...)           \
-void Window::set_uniform(const char* key, main_type self) {     \
+void Window::set_uniform(const char* key, main_type self) {  \
     GLint location = glGetUniformLocation(program_id, key);  \
     gl_func(location, __VA_ARGS__);                          \
 }
@@ -114,6 +115,7 @@ void Window::set_uniform(const char* key, main_type self) {     \
 quick_set_uniform(float, glUniform1f, self);
 quick_set_uniform(int, glUniform1i, self);
 quick_set_uniform(glm::vec3, glUniform3f, self.x, self.y, self.z);
+quick_set_uniform(glm::mat3x3, glUniformMatrix3fv, 1, false, glm::value_ptr(self));
 
 void Window::cleanup() {
 	cleanup_shaders();

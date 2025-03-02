@@ -5,7 +5,9 @@
 
 #include <vector>
 #include <GLFW/glfw3.h>
+#include <glm/gtc/type_ptr.hpp>	// glm::value_ptr
 #include <glm/vec3.hpp>
+#include <glm/mat4x4.hpp>
 
 struct Shader {
 	GLenum shader_type;
@@ -35,6 +37,7 @@ struct Window {
 	void set_uniform(const char* key, float value);
 	void set_uniform(const char* key, int value);
 	void set_uniform(const char* key, glm::vec3 value);
+	void set_uniform(const char* key, glm::mat3x3 value);
 };
 
 

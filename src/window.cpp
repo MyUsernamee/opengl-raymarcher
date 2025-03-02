@@ -115,7 +115,7 @@ int Window::width() {
 int Window::height() {
 	int width, height;
 	glfwGetWindowSize(window, &width, &height);
-	return width;
+	return height;
 }
 
 bool Window::should_close() { return glfwWindowShouldClose(window); }

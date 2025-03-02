@@ -64,7 +64,7 @@ int march(vec3 start, vec3 end) {
 
 void main() {
 
-	vec3 ray_direction = (rotation * normalize(vec3(1.0, screen_uv.x * 2.0 - 1.0, 1.0 - 2.0 * screen_uv.y)));
+	vec3 ray_direction = (normalize(vec3(1.0, (screen_uv.x * 2.0 - 1.0) * aspect_ratio, 1.0 - 2.0 * screen_uv.y)) * rotation);
 	//FragColor = vec4(ray_direction, 1.0);
 	int steps = march(eye_pos, eye_pos + ray_direction * 10.0);
 	FragColor = vec4(1.0 / pow(steps, 0.25));

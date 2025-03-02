@@ -67,8 +67,9 @@ void Game::run_main_loop() {
 	while (!window.should_close()) {
 		window.set_uniform("time", (float)glfwGetTime());
 		window.set_uniform("aspect_ratio", (float)window.width() / (float)window.height()); // TODO: This is run every frame but like mentioned
-		// in the getters for width and height there is probably a hook we can use.
-		
+		// in the getters for width and height there is probably a hook
+		// we can use.
+
 		//if (glfwGetKey(window.window, GLFW_KEY_W) == GLFW_PRESS)
 		
 	    glClear(GL_COLOR_BUFFER_BIT);

@@ -9,6 +9,8 @@
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 
+#include <map>
+
 struct Shader {
 	GLenum shader_type;
 	const char* source;
@@ -25,25 +27,25 @@ struct Window {
 	size_t frame;
 	std::vector<GLuint> shader_ids;
     std::vector<Shader> shader_sources;
+    // boolean - success
+    bool init_window();
+    bool init_shaders();
+    void add_shader(GLenum shader_type,
+		    const char *source); // Adds a shader to the render pipeline
+					 // with the given type
+    bool compile_shaders();
+    void cleanup_shaders();
+    void cleanup();
 
-	// boolean - success
-	bool init_window();
-	bool init_shaders();
-	void add_shader(GLenum shader_type, const char* source); // Adds a shader to the render pipeline with the given type
-	bool compile_shaders();
-	void cleanup_shaders();
-	void cleanup();
+    int width();  // Gets the current height in pixels
+    int height(); // Get the current width in pixels
 
-	int width(); // Gets the current height in pixels
-	int height(); // Get the current width in pixels
+    bool should_close();
 
-	bool should_close();
-	bool is_key_down(int key);
-
-	void set_uniform(const char* key, float value);
-	void set_uniform(const char* key, int value);
-	void set_uniform(const char* key, glm::vec3 value);
-	void set_uniform(const char* key, glm::mat3x3 value);
+    void set_uniform(const char *key, float value);
+    void set_uniform(const char *key, int value);
+    void set_uniform(const char *key, glm::vec3 value);
+    void set_uniform(const char *key, glm::mat3x3 value);
 };
 
 

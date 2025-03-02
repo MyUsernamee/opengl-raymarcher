@@ -28,7 +28,7 @@ bool Window::init_shaders() {
 	add_shader(GL_FRAGMENT_SHADER, SHADER_PS_TEST);
 
 	if (!compile_shaders()) return false;
-	
+
 	glUseProgram(program_id);
 	return true;
 }
@@ -119,7 +119,6 @@ int Window::height() {
 }
 
 bool Window::should_close() { return glfwWindowShouldClose(window); }
-bool Window::is_key_down(int key) { return glfwGetKey(window, key); }
 
 // sometimes the best solutions are the simplest
 // Honestly fair, just felt like it was a bit tedious to write all the possible different data types but :shrug:

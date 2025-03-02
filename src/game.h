@@ -1,6 +1,8 @@
 #pragma once
 
 #include "window.h"
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 // This is a singleton class that store the game state
 class Game {

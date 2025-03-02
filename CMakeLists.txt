@@ -11,7 +11,7 @@ set(SHADER_OUT_DIR ${CMAKE_BINARY_DIR}/shaders_out)
 
 # actual includes
 set(PROJECT_LIBRARIES glfw)
-set(PROJECT_INCLUDES include;glfw/include;${SHADER_OUT_DIR})
+set(PROJECT_INCLUDES include;glm;glfw/include;${SHADER_OUT_DIR})
 
 # generate shader files
 file(MAKE_DIRECTORY ${SHADER_OUT_DIR})
@@ -22,7 +22,7 @@ foreach(shader_file ${SHADER_FILES})
 
 	file(READ ${shader_file} shader_code)
     set(header_content "#define SHADER_${shader_name_upper} R\"(\n${shader_code}\n)\"")
-    file(WRITE ${SHADER_OUT_DIR}/${shader_name}.glsl "${header_content}")
+    file(WRITE ${SHADER_OUT_DIR}/${shader_name}.h "${header_content}")
 endforeach()
 
 # dont really understand what this does ngl

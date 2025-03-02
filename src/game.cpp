@@ -1,23 +1,18 @@
 
 #include "game.h"
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
 Game *Game::instance = nullptr; // This is a null ptr to start.
 
 Game::Game() {
 	if (!Game::get_instance()) {
 		Game::instance = this;
 	}
-	init_game();
 }
 
 Game *Game::get_instance() { return Game::instance; }
 
 // Most 
 bool Game::init_game() {
-	
 	if (!window.init_window()) {
 		DEBUG_PRINT("Failed to create window.");
 		return false;
@@ -42,7 +37,7 @@ void Game::run_main_loop() {
 		glEnd();
 
 		// MAIN LOOP HERE TODO: Create a loop function that actually contains all of the game data and all that.
-		window.shader_program.setUniform1f("time", glfwGetTime());
+		window.set_uniform("time", (float)glfwGetTime());
 
 		glfwSwapBuffers(window.window);
 		glfwPollEvents();

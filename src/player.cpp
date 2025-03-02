@@ -21,7 +21,7 @@ void Player::mouse_callback(GLFWwindow *window, double dx_pos, double dy_pos) {
 	// delta calcs
     float sensitivity = 3.0f;
     float delta_x = (float)(x_pos - prev_mouse.x) * sensitivity;
-    float delta_y = (float)(prev_mouse.y - y_pos) * sensitivity;
+    float delta_y = (float)(y_pos - prev_mouse.y) * sensitivity;
 
 	prev_mouse = vec2(x_pos, y_pos);
 

@@ -75,17 +75,32 @@ vec3 get_normal(vec3 pos) {
     return normalize(d1 * s1 + d2 * s2 + d3 * s3 + d4 * s4);
 }
 
+// soft shadow technique from https://iquilezles.org/articles/rmshadows/ 
+// TODO: use from https://www.shadertoy.com/view/lsKcDD instead, as this one fixes sharp corners
+float shadow(in vec3 pos, in vec3 dir, float min_t, float max_t, float k) {
+    float res = 1.0;
+    for(int i = 0; i < 256 && min_t < max_t; i++) {
+        float h = sdf(pos + dir * min_t);
+        if(h < EPSILON) return 0.0;
+
+        res = min(res, k * h / min_t);
+        min_t += h;
+    }
+    return res;
+}
+
 void main() {
 
-	vec3 ray_direction = (rotation * normalize(vec3(1.0, (screen_uv.x) * aspect_ratio, -screen_uv.y)));
+	vec3 ray_direction = (rotation * normalize(vec3(1.0, (screen_uv.x) * aspect_ratio, screen_uv.y)));
 	//FragColor = vec4(ray_direction, 1.0);
 
 	vec3 start = eye_pos + ray_direction * 0.003; 
 	vec3 end = eye_pos + ray_direction * 10.0;
 
-	vec3 trace = march(start, end);
-	if (trace != end) {	// hmmph.. dynamic branching
-		FragColor = vec4(get_normal(trace) * 0.5 + 0.5, 1.0);
+	vec3 hit_pos = march(start, end);
+	if (hit_pos != end) {
+		float shadow = shadow(hit_pos, normalize(vec3(-1, -1, 1)), 0.01, 1, 8);
+		FragColor = vec4(get_normal(hit_pos) * 0.5 + 0.5, 1.0) * shadow;
 	} else {
 		FragColor = vec4(0.0, 0.0, 0.0, 1.0);
 	}

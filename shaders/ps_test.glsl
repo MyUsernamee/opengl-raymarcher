@@ -80,7 +80,7 @@ void main() {
 	vec3 ray_direction = (rotation * normalize(vec3(1.0, (screen_uv.x) * aspect_ratio, -screen_uv.y)));
 	//FragColor = vec4(ray_direction, 1.0);
 
-	vec3 start = eye_pos + ray_direction * 0.01; 
+	vec3 start = eye_pos + ray_direction * 0.003; 
 	vec3 end = eye_pos + ray_direction * 10.0;
 
 	vec3 trace = march(start, end);

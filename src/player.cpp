@@ -8,6 +8,10 @@ vec3 Player::get_forward() {
 	return rotation * vec3(1, 0, 0);
 }
 
+vec3 Player::get_right() {
+	return rotation * vec3(0, 1, 0);
+}
+
 void Player::mouse_callback(GLFWwindow *window, double dx_pos, double dy_pos) {
 	// Normalize to -1 : 1
 	int width, height; glfwGetWindowSize(window, &width, &height);

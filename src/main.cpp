@@ -23,9 +23,25 @@ int main() {
 	while (!window.should_close()) {
 
 		// player movement
+		float speed = player.is_key_down(GLFW_KEY_LEFT_SHIFT) ? 0.003f : 0.001f;
+
 		if(player.is_key_down(GLFW_KEY_W)) {
-			player.pos += player.get_forward() * 0.001f;
+			player.pos += player.get_forward() * speed;
 		}
+
+		if (player.is_key_down(GLFW_KEY_A)) {
+			player.pos += player.get_right() * -speed;
+		}
+
+		if (player.is_key_down(GLFW_KEY_S)) {
+			player.pos += player.get_forward() * -speed;
+		}
+
+		if (player.is_key_down(GLFW_KEY_D)) {
+			player.pos += player.get_right() * speed;
+		}
+
+
 
 		window.set_uniform("time", (float)glfwGetTime());
 		window.set_uniform("aspect_ratio", (float)window.width() / (float)window.height());

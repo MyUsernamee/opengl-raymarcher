@@ -20,6 +20,7 @@ struct Player {
 	// x is forward, y is right, z is up
 	mat3x3 get_rotation_matrix();
 	vec3 get_forward();
+	vec3 get_right();
 	void mouse_callback(GLFWwindow* window, double x_pos, double y_pos);
 	void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 	bool is_key_down(int key);

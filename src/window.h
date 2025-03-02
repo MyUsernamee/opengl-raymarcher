@@ -37,6 +37,8 @@ struct Window {
 	int width(); // Gets the current height in pixels
 	int height(); // Get the current width in pixels
 
+	bool should_close();
+
 	void set_uniform(const char* key, float value);
 	void set_uniform(const char* key, int value);
 	void set_uniform(const char* key, glm::vec3 value);

@@ -64,8 +64,7 @@ void Game::update_transform() {
 
 void Game::run_main_loop() {
 	
-	while (!glfwWindowShouldClose(window.window)) {
-		// MAIN LOOP HERE TODO: Create a loop function that actually contains all of the game data and all that.
+	while (!window.should_close()) {
 		window.set_uniform("time", (float)glfwGetTime());
 		window.set_uniform("aspect_ratio", (float)window.width() / (float)window.height()); // TODO: This is run every frame but like mentioned
 		// in the getters for width and height there is probably a hook we can use.

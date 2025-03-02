@@ -118,6 +118,8 @@ int Window::height() {
 	return width;
 }
 
+bool Window::should_close() { return glfwWindowShouldClose(window); }
+
 // sometimes the best solutions are the simplest
 // Honestly fair, just felt like it was a bit tedious to write all the possible different data types but :shrug:
 #define quick_set_uniform(main_type, gl_func, ...)           \

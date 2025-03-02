@@ -70,7 +70,9 @@ void Game::update_transform() {
 	glm::vec3 right = glm::normalize(glm::cross(camera_forward, glm::vec3(0, 0, 1)));
 	glm::vec3 up = glm::cross(right, camera_forward);
 
-	window.set_uniform("rotation", glm::mat3x3(camera_forward, right, up));
+	rotation_matrix = glm::mat3x3(camera_forward, right, up);
+
+	window.set_uniform("rotation", rotation_matrix);
 	window.set_uniform("eye_pos", pos);
 }
 
@@ -88,7 +90,7 @@ void Game::run_main_loop() {
 		//if (glfwGetKey(window.window, GLFW_KEY_W) == GLFW_PRESS)
 
 		if(is_key_down(GLFW_KEY_W)) {
-			pos += camera_forward * 0.01f;
+			pos += camera_forward * 0.001f;
 		}
 		
 	    glClear(GL_COLOR_BUFFER_BIT);

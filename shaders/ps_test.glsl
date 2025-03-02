@@ -22,8 +22,8 @@ float sdf(vec3 pos) {
         if (r > 2.0) break;
         
         // convert to spherical coordinates
-        float theta = acos(z.z / r) + time / 10;
-        float phi = atan(z.y, z.x) + time / 10;
+        float theta = acos(z.z / r) + time / 100;
+        float phi = atan(z.y, z.x) + time / 100;
         dr = pow(r, power - 1.0) * power * dr + 1.0;
         
         // scale and rotate the point

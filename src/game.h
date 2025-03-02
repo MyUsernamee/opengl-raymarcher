@@ -20,15 +20,20 @@ public:
 	glm::vec2 mouse_pos;
 	glm::vec2 ang;
 	glm::vec3 camera_forward;
+	glm::mat3x3 rotation_matrix;
 	glm::mat4x4 view;
 
-    std::map<int, bool> key_down_map;
+	std::map<int, bool> key_down_map;
 
 	bool init_game();
 	void update_transform();
 	void run_main_loop();
 
 	bool is_key_down(int key);
+
+	glm::vec3 right();
+	glm::vec3 forward();
+	glm::vec3 up();
 
 private:
 	static Game *instance;

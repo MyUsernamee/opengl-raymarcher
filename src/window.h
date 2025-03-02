@@ -38,6 +38,7 @@ struct Window {
 	int height(); // Get the current width in pixels
 
 	bool should_close();
+	bool is_key_down(int key);
 
 	void set_uniform(const char* key, float value);
 	void set_uniform(const char* key, int value);

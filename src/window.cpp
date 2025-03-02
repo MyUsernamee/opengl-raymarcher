@@ -106,14 +106,14 @@ bool Window::compile_shaders() {
 
 // sometimes the best solutions are the simplest
 #define quick_set_uniform(main_type, gl_func, ...)           \
-void Window::set_uniform(const char* key, main_type v) {     \
+void Window::set_uniform(const char* key, main_type self) {     \
     GLint location = glGetUniformLocation(program_id, key);  \
     gl_func(location, __VA_ARGS__);                          \
 }
 
-quick_set_uniform(float, glUniform1f, v);
-quick_set_uniform(int, glUniform1i, v);
-quick_set_uniform(glm::vec3, glUniform3f, v.x, v.y, v.z);
+quick_set_uniform(float, glUniform1f, self);
+quick_set_uniform(int, glUniform1i, self);
+quick_set_uniform(glm::vec3, glUniform3f, self.x, self.y, self.z);
 
 void Window::cleanup() {
 	cleanup_shaders();

@@ -12,6 +12,26 @@ vec3 Player::get_right() {
 	return rotation * vec3(0, 1, 0);
 }
 
+void Player::process_movement() {
+	float speed = is_key_down(GLFW_KEY_LEFT_SHIFT) ? 0.003f : 0.001f;	// sprint
+
+	if(is_key_down(GLFW_KEY_W)) {
+		pos += get_forward() * speed;
+	}
+
+	if (is_key_down(GLFW_KEY_A)) {
+		pos += get_right() * -speed;
+	}
+
+	if (is_key_down(GLFW_KEY_S)) {
+		pos += get_forward() * -speed;
+	}
+
+	if (is_key_down(GLFW_KEY_D)) {
+		pos += get_right() * speed;
+	}
+}
+
 void Player::mouse_callback(GLFWwindow *window, double dx_pos, double dy_pos) {
 	// Normalize to -1 : 1
 	int width, height; glfwGetWindowSize(window, &width, &height);

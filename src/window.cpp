@@ -105,7 +105,21 @@ bool Window::compile_shaders() {
 	return true;
 }
 
+// TODO: Probably want to store these or something and have a hook that updates them but for now this works.
+int Window::width() {
+	int width, height;
+	glfwGetWindowSize(window, &width, &height);
+	return width;
+}
+
+int Window::height() {
+	int width, height;
+	glfwGetWindowSize(window, &width, &height);
+	return width;
+}
+
 // sometimes the best solutions are the simplest
+// Honestly fair, just felt like it was a bit tedious to write all the possible different data types but :shrug:
 #define quick_set_uniform(main_type, gl_func, ...)           \
 void Window::set_uniform(const char* key, main_type self) {  \
     GLint location = glGetUniformLocation(program_id, key);  \

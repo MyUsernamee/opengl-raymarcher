@@ -6,6 +6,8 @@ uniform float time;
 uniform mat3x3 rotation;
 uniform vec3 eye_pos;
 
+uniform float aspect_ratio; // width / height
+
 #define MAX 9999999999999.0
 #define SAFE_DISTANCE 0.000001
 float sdf(vec3 pos) {

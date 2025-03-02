@@ -29,10 +29,13 @@ struct Window {
 	// boolean - success
 	bool init_window();
 	bool init_shaders();
-	void add_shader(GLenum shader_type, const char* source);
+	void add_shader(GLenum shader_type, const char* source); // Adds a shader to the render pipeline with the given type
 	bool compile_shaders();
 	void cleanup_shaders();
 	void cleanup();
+
+	int width(); // Gets the current height in pixels
+	int height(); // Get the current width in pixels
 
 	void set_uniform(const char* key, float value);
 	void set_uniform(const char* key, int value);
@@ -44,6 +47,9 @@ struct Window {
 /*
 // mee - wip fucky code for compile-time evaluation. kinda hacky though
 // what do you think?
+
+// MyUsername - Bro legitimately genius not sure why I didn't think to just use a template :skull:
+// If your down to do it I would 100% be down, or if you want me to take a crack at it let me know
 
 #define uniform_check(type) constexpr (std::is_same_v<T, type>)
 template <typename T> void set_uniform(const char* key, T value) {

@@ -22,24 +22,6 @@ bool Game::init_game() {
 		return false;
     }
 
-    return true;
-}
-
-void Game::update_transform() {
-	glm::vec3 forward;
-    forward.x = sin(glm::radians(ang.x)) * cos(glm::radians(ang.y));
-    forward.y = cos(glm::radians(ang.x)) * cos(glm::radians(ang.y));
-    forward.z = sin(glm::radians(ang.y));
-	forward = glm::normalize(forward);
-
-	glm::vec3 right = glm::normalize(glm::cross(forward, glm::vec3(0, 0, 1)));
-	glm::vec3 up = glm::cross(right, forward);
-
-	window.set_uniform("rotation", glm::mat3x3(forward, right, up));
-	window.set_uniform("eye_pos", pos);
-}
-
-void Game::run_main_loop() {
 	glfwSetCursorPosCallback(window.window, [](GLFWwindow* window, double d_x_pos, double d_y_pos) {
 		// normalize to -1 : 1
 		int width, height;
@@ -60,6 +42,25 @@ void Game::run_main_loop() {
 		
 	});
 
+
+    return true;
+}
+
+void Game::update_transform() {
+	glm::vec3 forward;
+    forward.x = sin(glm::radians(ang.x)) * cos(glm::radians(ang.y));
+    forward.y = cos(glm::radians(ang.x)) * cos(glm::radians(ang.y));
+    forward.z = sin(glm::radians(ang.y));
+	forward = glm::normalize(forward);
+
+	glm::vec3 right = glm::normalize(glm::cross(forward, glm::vec3(0, 0, 1)));
+	glm::vec3 up = glm::cross(right, forward);
+
+	window.set_uniform("rotation", glm::mat3x3(forward, right, up));
+	window.set_uniform("eye_pos", pos);
+}
+
+void Game::run_main_loop() {
 	while (!glfwWindowShouldClose(window.window)) {
 		// MAIN LOOP HERE TODO: Create a loop function that actually contains all of the game data and all that.
 		window.set_uniform("time", (float)glfwGetTime());

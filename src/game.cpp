@@ -61,6 +61,7 @@ void Game::update_transform() {
 }
 
 void Game::run_main_loop() {
+
 	while (!glfwWindowShouldClose(window.window)) {
 		// MAIN LOOP HERE TODO: Create a loop function that actually contains all of the game data and all that.
 		window.set_uniform("time", (float)glfwGetTime());

@@ -17,8 +17,10 @@ bool Window::init_window() {
 		return false;
 	}
 
-	if (!init_shaders())
+	if (!init_shaders()) {
 	    DEBUG_PRINT("ERROR: Failed to load shaders");
+		return false;
+	}
 
 	return window != nullptr;
 }

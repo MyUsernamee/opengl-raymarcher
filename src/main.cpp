@@ -27,8 +27,6 @@ int main() {
 			player.pos += player.get_forward() * 0.001f;
 		}
 
-		DEBUG_PRINT("%f %f %f", player.get_forward().x, player.get_forward().y, player.get_forward().z);
-
 		window.set_uniform("time", (float)glfwGetTime());
 		window.set_uniform("aspect_ratio", (float)window.width() / (float)window.height());
 		window.set_uniform("eye_pos", player.pos);

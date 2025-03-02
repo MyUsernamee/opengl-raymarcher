@@ -8,8 +8,7 @@ uniform vec3 eye_pos;
 
 uniform float aspect_ratio; // width / height
 
-#define MAX 9999999999999.0
-#define SAFE_DISTANCE 0.000001
+#define SAFE_DISTANCE 0.0001
 float sdf(vec3 pos) {
     vec3 z = pos;
     float dr = 1.0;
@@ -43,9 +42,10 @@ int march(vec3 start, vec3 end) {
 	vec3 direction = normalize(end-start);
 	float d = sdf(start);
 	int steps = 0;
+	float dist = distance(position, end);
 
-
-	while (d < distance(position, end))
+	// TODO: AVOID DYNAMIC LOOPS!!!
+	while (d < dist)
 	{
 
 		d = sdf(position);
@@ -66,7 +66,11 @@ void main() {
 
 	vec3 ray_direction = (rotation * normalize(vec3(1.0, (screen_uv.x) * aspect_ratio, -screen_uv.y)));
 	//FragColor = vec4(ray_direction, 1.0);
-	int steps = march(eye_pos, eye_pos + ray_direction * 10.0);
-	FragColor = vec4(1.0 / pow(steps, 0.1));
 
+	int steps = march(eye_pos + ray_direction * 0.001, eye_pos + ray_direction * 10.0);
+	if (steps > 1) {	// hmmph.. dynamic branching
+		FragColor = vec4(1.0 / pow(steps, 0.1));
+	} else {
+		FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+	}
 }

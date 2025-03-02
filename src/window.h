@@ -27,15 +27,14 @@ struct Window {
 	size_t frame;
 	std::vector<GLuint> shader_ids;
     std::vector<Shader> shader_sources;
+
     // boolean - success
     bool init_window();
     bool init_shaders();
-    void add_shader(GLenum shader_type,
-		    const char *source); // Adds a shader to the render pipeline
-					 // with the given type
+    void add_shader(GLenum shader_type, const char *source);
     bool compile_shaders();
     void cleanup_shaders();
-    void cleanup();
+    //void cleanup();
 
     int width();  // Gets the current height in pixels
     int height(); // Get the current width in pixels
@@ -46,6 +45,8 @@ struct Window {
     void set_uniform(const char *key, int value);
     void set_uniform(const char *key, glm::vec3 value);
     void set_uniform(const char *key, glm::mat3x3 value);
+
+	~Window();
 };
 
 

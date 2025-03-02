@@ -17,8 +17,10 @@ bool Window::init_window() {
 		return false;
 	}
 
-	if (!init_shaders())
+	if (!init_shaders()) {
 	    DEBUG_PRINT("ERROR: Failed to load shaders");
+		return false;
+	}
 
 	return window != nullptr;
 }
@@ -133,7 +135,7 @@ quick_set_uniform(int, glUniform1i, self);
 quick_set_uniform(glm::vec3, glUniform3f, self.x, self.y, self.z);
 quick_set_uniform(glm::mat3x3, glUniformMatrix3fv, 1, false, glm::value_ptr(self));
 
-void Window::cleanup() {
+Window::~Window() {
 	cleanup_shaders();
 
 	glfwDestroyWindow(window);

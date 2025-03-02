@@ -21,7 +21,6 @@ foreach(shader_include ${SHADER_INCLUDES})
 	file(READ "${shader_include}" file_content)
 	string(APPEND shader_include_source "${file_content}")
 	string(STRIP "${shader_include_source}" shader_include_source)
-	string(APPEND shader_include_source "\n\n")
 endforeach()
 
 # generate shader files
@@ -33,12 +32,14 @@ foreach(shader_file ${SHADER_FILES})
 	file(READ ${shader_file} shader_code)
 
 	set(VERSION_DIRECTIVE "")
-	string(REGEX MATCH "#version (.*)\n")
+	string(REGEX MATCH "#version ([^\n]*)" version "${shader_code}")	
+	string(REGEX REPLACE "#version ([^\n]*)" "" shader_code "${shader_code}")
+
 
 	set(final_file "")
-	string(APPEND)
-	string(APPEND final_file "${shader_include_source}")
-	string(APPEND final_file "${shader_code}")
+	string(APPEND final_file "${version}\n")
+	string(APPEND final_file "${shader_include_source}\n")
+	string(APPEND final_file "${shader_code}\n")
 	string(STRIP "${final_file}" final_file)
 	
     set(header_content "#define SHADER_${shader_name_upper} R\"(${final_file})\"")

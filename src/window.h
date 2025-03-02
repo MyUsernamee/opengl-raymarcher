@@ -21,13 +21,17 @@ struct Shader {
 	}
 };
 
+// Meant to abstract all glfw and opengl away and handling rendering.
+// Any opengl or glfw calls should be handled through
+// Also any thing to do with rendering should be handled through this too.
 struct Window {
 	GLFWwindow* window;
 	GLuint program_id;
 	size_t frame;
 	std::vector<GLuint> shader_ids;
     std::vector<Shader> shader_sources;
-    // boolean - success
+
+	// boolean - success
     bool init_window();
     bool init_shaders();
     void add_shader(GLenum shader_type,

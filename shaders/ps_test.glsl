@@ -16,11 +16,11 @@ void main() {
 	//FragColor = vec4(ray_direction, 1.0);
 
 	vec3 start = eye_pos + ray_direction * 0.00; 
-	vec3 end = eye_pos + ray_direction * 10.0;
+	vec3 end = eye_pos + ray_direction * 1000.0;
 
 	vec3 hit_pos = march(start, end);
 	if (hit_pos != end) {
-		float shadow = shadow(hit_pos, normalize(vec3(-1, -1, 1)), 0.01, 1, 8);
+		float shadow = 1.0;// shadow(hit_pos, normalize(vec3(-1, -1, 1)), 0.01, 1, 8);
 		FragColor = vec4(get_normal(hit_pos) * 0.5 + 0.5, 1.0) * shadow;
 	} else {
 		FragColor = vec4(0.0, 0.0, 0.0, 1.0);

@@ -8,6 +8,17 @@ Window window;
 
 using namespace glm;
 
+vec3 max(vec3 a, float b) {
+  return vec3(max(a.x, b), max(a.y, b), max(a.z, b));
+}
+vec3 mod(vec3 a, float b) {
+	return vec3(
+		std::fmod(a.x, b),
+		std::fmod(a.y, b),
+		std::fmod(a.z, b)
+	);
+}
+
 #include <cmath>
 #include "../shared/march.h"
 

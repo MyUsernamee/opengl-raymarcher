@@ -1,6 +1,4 @@
-#version 440
-#extension GL_NV_shader_buffer_load : enable
-#extension GL_NV_uniform_buffer_std430_layout : enable
+#version 410
 in vec2 screen_uv;
 out vec4 FragColor;
 
@@ -13,7 +11,7 @@ uniform float aspect_ratio; // width / height
 #include <object.h>
 
 uniform int object_count;
-layout(std430) uniform ObjectBlock {
+layout(std140) uniform ObjectBlock {
     Object objects[32];
 };
 

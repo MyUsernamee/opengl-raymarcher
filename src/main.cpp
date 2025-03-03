@@ -1,10 +1,16 @@
 #include "player.h"
 #include "window.h"
 #include <stdio.h>
+#define CPP
+#include "../shared/object.h"
+#include <cmath>
+
+static std::vector<Object> objects;
+static size_t object_count;
 
 // must be global so they can be accessed via callbacks
-Player player;
-Window window;
+static Player player;
+static Window window;
 
 using namespace glm;
 
@@ -22,13 +28,7 @@ vec3 mod(vec3 a, float b) {
 	);
 }
 
-#define CPP
-#include "../shared/object.h"
 
-static std::vector<Object> objects;
-static size_t object_count;
-
-#include <cmath>
 #include "../shared/march.h"
 
 int main() {
@@ -38,21 +38,6 @@ int main() {
 	    Object{SDF_MANDLEBROT, INTERSECTION_UNION, mat4(1.0)},
 		Object{SDF_SPHERE, INTERSECTION_SUBTRACT, mat4(0.8)}};
 	object_count = objects.size();
-
-
-	for (const auto& obj : objects) {
-		printf("Object Type: %d\n", obj.shape);
-		printf("Object Operation: %d\n", obj.intersection_type);
-		printf("Object Matrix:\n");
-		const float* matrix = (const float*)glm::value_ptr(obj.model_matrix);
-		for (int i = 0; i < 4; ++i) {
-			for (int j = 0; j < 4; ++j) {
-				printf("%f ", matrix[i * 4 + j]);
-			}
-			printf("\n");
-		}
-		printf("\n");
-	}
 
 	window.set_uniform_buffer("ObjectBlock", (void *)objects.data(),
 				  objects.size() * sizeof(Object));

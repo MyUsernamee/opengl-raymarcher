@@ -8,11 +8,7 @@ uniform vec3 eye_pos;
 
 uniform float aspect_ratio; // width / height
 
-#define EPSILON 0.0001
-
-#include <shared>
-
-
+#include
 
 void main() {
 

@@ -1,3 +1,5 @@
+#define EPSILON 0.0001
+
 float sdf(vec3 pos) {
     vec3 z = pos;
     float dr = 1.0;

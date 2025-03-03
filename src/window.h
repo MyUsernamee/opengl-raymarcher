@@ -28,6 +28,8 @@ struct Window {
 	GLFWwindow* window;
 	GLuint program_id;
 	size_t frame;
+	int width = 800;
+	int height = 400;
 	std::vector<GLuint> shader_ids;
     std::vector<Shader> shader_sources;
 
@@ -38,9 +40,6 @@ struct Window {
     bool compile_shaders();
     void cleanup_shaders();
     //void cleanup();
-
-    int width();  // Gets the current height in pixels
-    int height(); // Get the current width in pixels
 
     bool should_close();
 

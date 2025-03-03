@@ -79,7 +79,7 @@ int main() {
 		glBindVertexArray(window.vao);
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4); // Todo remove all raw opengl Calls from main and move into window
 	
 		glDisableVertexAttribArray(0);
 		glBindVertexArray(0);

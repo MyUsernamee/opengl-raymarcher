@@ -1,13 +1,13 @@
 #ifndef MARCH_H
 #define MARCH_H
 
-#define EPSILON 0.0001
+#define EPSILON 0.0001f
 
 float sdf(vec3 pos) {
     vec3 z = pos;
     float dr = 1.0;
     float r = 0.0;
-    const int iterations = 32;
+    const int iterations = 16;
     const float power = 8.0;
     
     for (int i = 0; i < iterations; i++) {
@@ -15,8 +15,8 @@ float sdf(vec3 pos) {
         if (r > 2.0) break;
         
         // convert to spherical coordinates
-        float theta = acos(z.z / r) + time / 100;
-        float phi = atan(z.y, z.x) + time / 100;
+        float theta = acos(z.z / r);
+        float phi = atan(z.y, z.x);
         dr = pow(r, power - 1.0) * power * dr + 1.0;
         
         // scale and rotate the point
@@ -68,19 +68,4 @@ vec3 get_normal(vec3 pos) {
 
     return normalize(d1 * s1 + d2 * s2 + d3 * s3 + d4 * s4);
 }
-
-// soft shadow technique from https://iquilezles.org/articles/rmshadows/ 
-// TODO: use from https://www.shadertoy.com/view/lsKcDD instead, as this one fixes sharp corners
-float shadow(in vec3 pos, in vec3 dir, float min_t, float max_t, float k) {
-    float res = 1.0;
-    for(int i = 0; i < 256 && min_t < max_t; i++) {
-        float h = sdf(pos + dir * min_t);
-        if(h < EPSILON) return 0.0;
-
-        res = min(res, k * h / min_t);
-        min_t += h;
-    }
-    return res;
-}
-
 #endif

@@ -12,8 +12,9 @@ vec3 Player::get_right() {
 	return rotation * vec3(0, 1, 0);
 }
 
-void Player::process_movement() {
-	float speed = is_key_down(GLFW_KEY_LEFT_SHIFT) ? 0.003f : 0.001f;	// sprint
+void Player::process_movement(float dist) {
+	float speed = is_key_down(GLFW_KEY_LEFT_SHIFT) ? 0.3f : 0.1f;	// sprint
+	speed *= clamp(dist, 0.0001f, 0.1f);
 
 	if(is_key_down(GLFW_KEY_W)) {
 		pos += get_forward() * speed;

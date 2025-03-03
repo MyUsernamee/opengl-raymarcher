@@ -6,6 +6,11 @@
 Player player;
 Window window;
 
+using namespace glm;
+
+#include <cmath>
+#include "../shared/march.h"
+
 int main() {
 	if (!window.init_window()) return 1;
 
@@ -29,10 +34,10 @@ int main() {
 	// main game loop (move if needed)
 	while (!window.should_close()) {
 		// player stuff
-		player.process_movement();
+		player.process_movement(sdf(player.pos));
 
 		// TODO: maybe abstract into window (renderer) class?
-		window.set_uniform("time", (float)glfwGetTime());
+		//window.set_uniform("time", (float)glfwGetTime());
 		window.set_uniform("eye_pos", player.pos);
 		window.set_uniform("rotation", player.get_rotation_matrix());
 		window.set_uniform("aspect_ratio", (float)window.width / (float)window.height);

@@ -1,3 +1,6 @@
+#ifndef MARCH_H
+#define MARCH_H
+
 #define EPSILON 0.0001
 
 float sdf(vec3 pos) {
@@ -79,3 +82,5 @@ float shadow(in vec3 pos, in vec3 dir, float min_t, float max_t, float k) {
     }
     return res;
 }
+
+#endif

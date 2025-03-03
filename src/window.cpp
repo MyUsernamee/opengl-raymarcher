@@ -26,12 +26,13 @@ bool Window::init_window() {
 		return false;
 	}
 	
-
+	// Creates a vertex buffer object to store our verticies
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * 4, &verticies, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+	// Creates a vertex attribute array (needed to draw the vertices).
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 
@@ -40,6 +41,7 @@ bool Window::init_window() {
 		return false;
 	}
 
+	// Create buffer for the uniform buffer for objects.
 	glGenBuffers(1, &buffer_id);
 
 	return window != nullptr;

@@ -74,10 +74,19 @@ int main() {
 		window.set_uniform("aspect_ratio", (float)window.width / (float)window.height);
 		
 	    glClear(GL_COLOR_BUFFER_BIT);
+
+	    glBindBuffer(GL_ARRAY_BUFFER, window.vbo);
+		glBindVertexArray(window.vao);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-		
-		glfwSwapBuffers(window.window);
-		glfwPollEvents();
+	
+		glDisableVertexAttribArray(0);
+		glBindVertexArray(0);
+	    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	    glfwSwapBuffers(window.window);
+	    glfwPollEvents();
 	
 	}
 

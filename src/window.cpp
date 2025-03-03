@@ -29,7 +29,8 @@ bool Window::init_window() {
 
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(vbo, sizeof(glm::vec2) * 4, &verticies, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * 4, &verticies, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);

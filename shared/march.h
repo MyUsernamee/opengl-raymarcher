@@ -3,6 +3,21 @@
 
 #define EPSILON 0.0001
 
+enum ShapeType {
+	Sphere,
+	Box,
+};
+
+struct Material {
+	vec3 color;
+};
+
+struct Object {
+	ShapeType shape;
+	Material material;
+	mat4 model_matrix;
+};
+
 float sdf(vec3 pos) {
     vec3 z = pos;
     float dr = 1.0;
@@ -71,7 +86,7 @@ vec3 get_normal(vec3 pos) {
 
 // soft shadow technique from https://iquilezles.org/articles/rmshadows/ 
 // TODO: use from https://www.shadertoy.com/view/lsKcDD instead, as this one fixes sharp corners
-float shadow(in vec3 pos, in vec3 dir, float min_t, float max_t, float k) {
+float shadow(vec3 pos, vec3 dir, float &min_t, float &max_t, float &k) {
     float res = 1.0;
     for(int i = 0; i < 256 && min_t < max_t; i++) {
         float h = sdf(pos + dir * min_t);

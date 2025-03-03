@@ -35,8 +35,8 @@ int main() {
 	if (!window.init_window()) return 1;
 
 	objects = {
-	    Object{SDF_MANDLEBROT, INTERSECTION_UNION, mat4(1.0)},
-		Object{SDF_SPHERE, INTERSECTION_SUBTRACT, mat4(0.8)}};
+		create_object(SDF_MANDLEBROT),
+		create_object(SDF_SPHERE, INTERSECTION_SUBTRACT)};
 	object_count = objects.size();
 
 	window.set_uniform_buffer("ObjectBlock", (void *)objects.data(),

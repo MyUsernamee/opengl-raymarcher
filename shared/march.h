@@ -1,15 +1,7 @@
 #ifndef MARCH_H
 #define MARCH_H
 
-#define EPSILON 1e-6f
-
-#define INTERSECTION_UNION 0
-#define INTERSECTION_SUBTRACT 1
-#define INTERSECTION_INTERSECTION 2
-
-#define SDF_SPHERE 0
-#define SDF_BOX 1
-#define SDF_MANDLEBROT 2
+#define EPSILON 1e-5f
 
 struct Material {
 	vec3 color;
@@ -130,29 +122,43 @@ float sdf(vec3 pos) {
 	return current_distance;
 }
 
-vec3 march(vec3 start, vec3 end) {
+struct MarchData {
+    vec3 position;
+    float t;
+    int steps;
+};
+
+MarchData march(vec3 start, vec3 end) {
 
 	vec3 position = start;
 	vec3 direction = normalize(end - start);
 	float d = sdf(start);
-	float t = 0.0;
+    float t = 0.0;
+    int it;
 	float dist = distance(position, end);
+
+    MarchData data;
 
 	// TODO: AVOID DYNAMIC LOOPS!!!
 
-	for (int it = 0; it < 1e10 && d < dist; it++) {
+	for (it = 0; it < 1e10 && d < dist; it++) {
 
 		d = sdf(position);
 		t += d;
 		position += direction * d;
 
-		if (d < EPSILON * min(pow(10.0f, t * 8.0f), dist)) {
-			return position;
+		if (d < EPSILON * min(pow(10.0f, t * 16.0f), dist)) {
+            data.position = position;
+            data.t = t;
+            data.steps = it;
+			return data;
 		}
 	}
+    data.position = end;
+    data.t = t;
+    data.steps = it;
 
-	return end;
-
+	return data;
 }
 
 // extracts normal at position using tetrahedral sampling 

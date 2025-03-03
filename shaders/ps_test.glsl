@@ -1,4 +1,4 @@
-#version 410
+#version 410 core
 in vec2 screen_uv;
 out vec4 FragColor;
 

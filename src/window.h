@@ -26,6 +26,8 @@ struct Shader {
 // Also any thing to do with rendering should be handled through this too.
 struct Window {
 	GLFWwindow* window;
+	GLuint vbo;
+	GLuint vao;
 	GLuint program_id;
 	GLuint buffer_id;
 	size_t frame;

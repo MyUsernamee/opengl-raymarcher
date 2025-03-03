@@ -22,6 +22,7 @@ vec3 mod(vec3 a, float b) {
 	);
 }
 
+#define CPP
 #include "../shared/object.h"
 
 static std::vector<Object> objects;
@@ -34,7 +35,7 @@ int main() {
 	if (!window.init_window()) return 1;
 
 	objects = {
-	    Object{SDF_SPHERE, INTERSECTION_UNION, mat4(1.0)}};
+	    Object{SDF_MANDLEBROT, INTERSECTION_UNION, mat4(1.0)}};
 	object_count = objects.size();
 
 

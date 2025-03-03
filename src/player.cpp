@@ -53,7 +53,7 @@ void Player::mouse_callback(GLFWwindow *window, double dx_pos, double dy_pos) {
     rotation = normalize(rotation);
 }
 
-void Player::key_callback(GLFWwindow *window, int key, int scancode, int action, int mods) {
+void Player::key_callback(int key, int scancode, int action, int mods) {
 	key_down_map.insert_or_assign(key, action != GLFW_RELEASE);
 }
 

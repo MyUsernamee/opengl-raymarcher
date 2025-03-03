@@ -6,9 +6,9 @@
 // returns true on success, false otherwise
 bool Window::init_window() {
 	glfwInit();
-	glfwWindowHint(GLFW_RESIZABLE, 0);	// TODO: fix me
+	//glfwWindowHint(GLFW_RESIZABLE, 0);	// TODO: fix me
 
-	window = glfwCreateWindow(800, 400, "Raymarcher", nullptr, nullptr);
+	window = glfwCreateWindow(width, height, "Raymarcher", nullptr, nullptr);
 	glfwMakeContextCurrent(window);
 	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
@@ -105,19 +105,6 @@ bool Window::compile_shaders() {
 	shader_sources.clear();
 
 	return true;
-}
-
-// TODO: Probably want to store these or something and have a hook that updates them but for now this works.
-int Window::width() {
-	int width, height;
-	glfwGetWindowSize(window, &width, &height);
-	return width;
-}
-
-int Window::height() {
-	int width, height;
-	glfwGetWindowSize(window, &width, &height);
-	return height;
 }
 
 bool Window::should_close() { return glfwWindowShouldClose(window); }

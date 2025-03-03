@@ -23,6 +23,6 @@ struct Player {
 	vec3 get_right();
 	void process_movement();
 	void mouse_callback(GLFWwindow* window, double x_pos, double y_pos);
-	void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+	void key_callback(int key, int scancode, int action, int mods);
 	bool is_key_down(int key);
 };

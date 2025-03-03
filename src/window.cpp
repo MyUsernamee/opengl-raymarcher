@@ -172,6 +172,29 @@ bool Window::compile_shaders() {
 
 bool Window::should_close() { return glfwWindowShouldClose(window); }
 
+void Window::clear(float r, float g, float b) {
+	glClearColor(r, g, b, 1.0);
+	glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void Window::draw_quad() {
+
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBindVertexArray(vao);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4); 
+	glDisableVertexAttribArray(0);
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+}
+
+void Window::end_frame() {
+	glfwSwapBuffers(window);
+	glfwPollEvents();
+}
+
 // sometimes the best solutions are the simplest
 // Honestly fair, just felt like it was a bit tedious to write all the possible different data types but :shrug:
 #define quick_set_uniform(main_type, gl_func, ...)                             \

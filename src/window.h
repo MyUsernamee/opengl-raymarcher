@@ -46,6 +46,12 @@ struct Window {
 
     bool should_close();
 
+	void clear(float r, float g, float b);
+	void draw_quad();
+
+	// Polls events, swaps the buffers and waits for the next frame.
+	void end_frame();
+
     void set_uniform(const char *key, float value);
     void set_uniform(const char *key, int value);
     void set_uniform(const char *key, glm::vec3 value);

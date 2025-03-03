@@ -61,33 +61,23 @@ int main() {
 		glViewport(0, 0, width, height);
 	});
 
-	glClearColor(1.0, 0.0, 0.0, 1.0);
 	// main game loop (move if needed)
 	while (!window.should_close()) {
 		// player stuff
 		player.process_movement(sdf(player.pos));
-
 		// TODO: maybe abstract into window (renderer) class?
 		//window.set_uniform("time", (float)glfwGetTime());
 		window.set_uniform("eye_pos", player.pos);
 		window.set_uniform("rotation", player.get_rotation_matrix());
 		window.set_uniform("aspect_ratio", (float)window.width / (float)window.height);
 		
-	    glClear(GL_COLOR_BUFFER_BIT);
+		window.clear(0.0, 0.0, 0.0);
 
-	    glBindBuffer(GL_ARRAY_BUFFER, window.vbo);
-		glBindVertexArray(window.vao);
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4); // Todo remove all raw opengl Calls from main and move into window
-	
-		glDisableVertexAttribArray(0);
-		glBindVertexArray(0);
-	    glBindBuffer(GL_ARRAY_BUFFER, 0);
+		window.draw_quad();
 
-	    glfwSwapBuffers(window.window);
-	    glfwPollEvents();
-	
+		window.end_frame();
+
+
 	}
 
 	return 0;

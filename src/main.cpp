@@ -35,7 +35,8 @@ int main() {
 	if (!window.init_window()) return 1;
 
 	objects = {
-	    Object{SDF_MANDLEBROT, INTERSECTION_UNION, mat4(1.0)}};
+	    Object{SDF_MANDLEBROT, INTERSECTION_UNION, mat4(1.0)},
+		Object{SDF_SPHERE, INTERSECTION_SUBTRACT, mat4(0.8)}};
 	object_count = objects.size();
 
 

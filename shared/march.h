@@ -121,10 +121,10 @@ float intersect(int intersection_type, float a, float b) {
 
 float sdf(vec3 pos) {
 
-	float current_distance = sdf_type(objects[0].shape, vec3(objects[0].model_matrix * vec4(pos, 1.0)));
+	float current_distance = sdf_type(objects[0].shape, vec3(inverse(objects[0].model_matrix) * vec4(pos, 1.0)));
 
 	for (int i = 1; i < object_count; i++) {
-		current_distance = intersect(objects[i].intersection_type, current_distance, sdf_type(objects[i].shape, vec3(objects[i].model_matrix * vec4(pos, 1.0))));
+		current_distance = intersect(objects[i].intersection_type, sdf_type(objects[i].shape, vec3(inverse(objects[i].model_matrix) * vec4(pos, 1.0))), current_distance);
 	}
 
 	return current_distance;

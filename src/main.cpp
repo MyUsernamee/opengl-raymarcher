@@ -61,6 +61,7 @@ int main() {
 		glViewport(0, 0, width, height);
 	});
 
+	glClearColor(1.0, 0.0, 0.0, 1.0);
 	// main game loop (move if needed)
 	while (!window.should_close()) {
 		// player stuff
@@ -73,16 +74,7 @@ int main() {
 		window.set_uniform("aspect_ratio", (float)window.width / (float)window.height);
 		
 	    glClear(GL_COLOR_BUFFER_BIT);
-		glBegin(GL_TRIANGLE_STRIP);
-		{
-			
-			glVertex2d(-1.0, -1.0);
-			glVertex2d(1.0, -1.0);
-			glVertex2d(-1.0, 1.0);
-			glVertex2d(1.0, 1.0);
-
-		}
-		glEnd();
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 		
 		glfwSwapBuffers(window.window);
 		glfwPollEvents();

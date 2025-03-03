@@ -50,7 +50,7 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_INCLUDES})
 
 # setup linking
-if (UNIX)
+if (UNIX AND NOT ${APPLE})
 	target_link_libraries(${PROJECT_NAME} PRIVATE GL;${PROJECT_LIBRARIES})
 else()
 	find_package(OpenGL REQUIRED)

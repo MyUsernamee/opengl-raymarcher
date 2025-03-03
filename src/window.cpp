@@ -3,19 +3,36 @@
 #include "vs_test.h" // SHADER_VS_TEST
 #include "ps_test.h" // SHADER_PS_TEST
 
-// returns true on success, false otherwise
+const glm::vec2 verticies[4] {
+	glm::vec2(-1.0f, -1.0f),
+	glm::vec2(1.0f, -1.0f),
+	glm::vec2(-1.0f, 1.0f),
+	glm::vec2(1.0f, 1.0f)
+};
 bool Window::init_window() {
 	glfwInit();
-	//glfwWindowHint(GLFW_RESIZABLE, 0);	// TODO: fix me
+	glfwWindowHint(GLFW_RESIZABLE, 0);	// TODO: fix me
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	glfwWindowHint(GLFW_OPENGL_COMPAT_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
 
 	window = glfwCreateWindow(width, height, "Raymarcher", nullptr, nullptr);
 	glfwMakeContextCurrent(window);
 	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
+	
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		DEBUG_PRINT("ERROR: Failed to load glad");
 		return false;
 	}
+	
+
+	glGenBuffers(1, &vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(vbo, sizeof(glm::vec2) * 4, &verticies, GL_STATIC_DRAW);
+
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
 
 	if (!init_shaders()) {
 	    DEBUG_PRINT("ERROR: Failed to load shaders");
@@ -121,6 +138,28 @@ bool Window::compile_shaders() {
 
 		// Use the infoLog as you see fit.
 		DEBUG_PRINT("ERROR: Failed to link program: %s", infoLog.data());
+
+		return false;
+	}
+
+	glValidateProgram(program_id);
+
+	// Check for validation errors
+	GLint isValid = 0;
+	glGetProgramiv(program_id, GL_VALIDATE_STATUS, &isValid);
+	if (isValid == GL_FALSE) {
+		GLint maxLength = 0;
+		glGetProgramiv(program_id, GL_INFO_LOG_LENGTH, &maxLength);
+
+		// The maxLength includes the NULL character
+		std::vector<GLchar> infoLog(maxLength);
+		glGetProgramInfoLog(program_id, maxLength, &maxLength, &infoLog[0]);
+
+		// We don't need the program anymore.
+		glDeleteProgram(program_id);
+
+		// Use the infoLog as you see fit.
+		DEBUG_PRINT("ERROR: Failed to validate program: %s", infoLog.data());
 
 		return false;
 	}

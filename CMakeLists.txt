@@ -15,14 +15,6 @@ set(SHARED_DIR ${CMAKE_SOURCE_DIR}/shared)
 set(PROJECT_LIBRARIES glfw)
 set(PROJECT_INCLUDES include;glm;glfw/include;${SHADER_OUT_DIR};${SHARED_DIR})
 
-file (GLOB_RECURSE SHADER_INCLUDES "${SHARED_DIR}/*.h")
-set(shader_include_source "")
-foreach(shader_include ${SHADER_INCLUDES})
-	file(READ "${shader_include}" file_content)
-	string(APPEND shader_include_source "${file_content}")
-	string(STRIP "${shader_include_source}" shader_include_source)
-endforeach()
-
 # generate shader files
 file(MAKE_DIRECTORY ${SHADER_OUT_DIR})
 file(GLOB SHADER_FILES "${SHADER_DIR}/*.glsl")
@@ -31,9 +23,19 @@ foreach(shader_file ${SHADER_FILES})
 	string(TOUPPER ${shader_name} shader_name_upper)	# toupper
 	file(READ ${shader_file} shader_code)
 
-	string(REPLACE "#include" "${shader_include_source}" shader_code "${shader_code}")
+	string(REGEX MATCHALL "#include <([^>]*)>" shader_includes "${shader_code}")
 
 
+	foreach(include_file ${shader_includes})
+
+		string(REPLACE "#include" "" include_file_name ${include_file})
+		string(REPLACE "<" "" include_file_name ${include_file_name})
+		string(REPLACE ">" "" include_file_name ${include_file_name})
+		string(REPLACE " " "" include_file_name ${include_file_name})
+		file(READ "${SHARED_DIR}/${include_file_name}" include_code)
+		string(REPLACE "${include_file}" "${include_code}" shader_code "${shader_code}")
+
+	endforeach()
 	
     set(header_content "#define SHADER_${shader_name_upper} R\"(${shader_code})\"")
     file(WRITE ${SHADER_OUT_DIR}/${shader_name}.h "${header_content}")

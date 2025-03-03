@@ -22,6 +22,8 @@ bool Window::init_window() {
 		return false;
 	}
 
+	glGenBuffers(1, &buffer_id);
+
 	return window != nullptr;
 }
 
@@ -94,7 +96,7 @@ bool Window::compile_shaders() {
 	if (!full_compile) return false;
 
 	// create "program" (?)
-	program_id = glCreateProgram();
+	program_id = glCreateProgram(); // Yea its like the rendering pipeline. The program is the entire pipeline from vertex shader to ps shader
 
 	// link our shaders
 	for (GLuint shader_id : shader_ids) {
@@ -102,6 +104,27 @@ bool Window::compile_shaders() {
 	}
 
 	glLinkProgram(program_id);
+
+	// Check for linking errors
+	GLint isLinked = 0;
+	glGetProgramiv(program_id, GL_LINK_STATUS, &isLinked);
+	if (isLinked == GL_FALSE) {
+		GLint maxLength = 0;
+		glGetProgramiv(program_id, GL_INFO_LOG_LENGTH, &maxLength);
+
+		// The maxLength includes the NULL character
+		std::vector<GLchar> infoLog(maxLength);
+		glGetProgramInfoLog(program_id, maxLength, &maxLength, &infoLog[0]);
+
+		// We don't need the program anymore.
+		glDeleteProgram(program_id);
+
+		// Use the infoLog as you see fit.
+		DEBUG_PRINT("ERROR: Failed to link program: %s", infoLog.data());
+
+		return false;
+	}
+
 	shader_sources.clear();
 
 	return true;
@@ -111,10 +134,12 @@ bool Window::should_close() { return glfwWindowShouldClose(window); }
 
 // sometimes the best solutions are the simplest
 // Honestly fair, just felt like it was a bit tedious to write all the possible different data types but :shrug:
-#define quick_set_uniform(main_type, gl_func, ...)           \
-void Window::set_uniform(const char* key, main_type self) {  \
-    GLint location = glGetUniformLocation(program_id, key);  \
-    gl_func(location, __VA_ARGS__);                          \
+#define quick_set_uniform(main_type, gl_func, ...)                             \
+  void Window::set_uniform(const char *key, main_type self) {                  \
+    GLint location = glGetUniformLocation(program_id, key);                    \
+    if (location == -1)                                                         \
+      DEBUG_PRINT("FAILED TO FIND UNIFORM"); \
+	gl_func(location, __VA_ARGS__); \
 }
 
 quick_set_uniform(float, glUniform1f, self);
@@ -122,6 +147,25 @@ quick_set_uniform(int, glUniform1i, self);
 quick_set_uniform(glm::vec3, glUniform3f, self.x, self.y, self.z);
 quick_set_uniform(glm::mat3x3, glUniformMatrix3fv, 1, false, glm::value_ptr(self));
 
+
+void Window::set_uniform_buffer(const char* key, void* buffer, size_t size) {
+    // Get the index of the uniform block
+    GLuint blockIndex = glGetUniformBlockIndex(program_id, key);
+    
+    // Choose a binding point (here we use 0; change if needed)
+    GLuint bindingPoint = 0;
+    glUniformBlockBinding(program_id, blockIndex, bindingPoint);
+    
+    // Bind our uniform buffer and send the data
+    glBindBuffer(GL_UNIFORM_BUFFER, buffer_id);
+    glBufferData(GL_UNIFORM_BUFFER, size, buffer, GL_DYNAMIC_DRAW);
+    
+    // Bind the whole buffer to the uniform block binding point
+    glBindBufferBase(GL_UNIFORM_BUFFER, bindingPoint, buffer_id);
+    
+    // Unbind the buffer
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+}
 Window::~Window() {
 	cleanup_shaders();
 

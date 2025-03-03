@@ -3,14 +3,16 @@
 
 #define EPSILON 1e-6f
 
+#define INTERSECTION_UNION 0
+#define INTERSECTION_SUBTRACT 1
+#define INTERSECTION_INTERSECTION 2
+
+#define SDF_SPHERE 0
+#define SDF_BOX 1
+#define SDF_MANDLEBROT 2
+
 struct Material {
 	vec3 color;
-};
-
-struct Object {
-	int shape;
-	Material material;
-	mat4 model_matrix;
 };
 
 float mandlebrot_sdf(vec3 pos) {
@@ -85,8 +87,48 @@ float smoothMinPoly(float a, float b, float k) {
     return mix(b, a, h) - k * h * (1.0 - h);
 }
 
+float box_sdf(vec3 pos) {
+	vec3 d = abs(pos) - vec3(1.0);
+	return min(max(d.x, max(d.y, d.z)), 0.0f) + length(max(d, 0.0f));
+}
 
-float sdf(vec3 pos) {return mandlebrot_sdf(pos); }
+float sdf_type(int sdf_type, vec3 pos) {
+	switch(sdf_type) {
+		case SDF_SPHERE:
+			return sphere_sdf(pos);
+		case SDF_BOX:
+			return box_sdf(pos);
+		case SDF_MANDLEBROT:
+			return mandlebrot_sdf(pos);
+		// Add more cases as needed for other SDF types
+		default:
+			return 0.0; // Default case if no SDF type matches
+	}
+}
+
+float intersect(int intersection_type, float a, float b) {
+	switch(intersection_type) {
+		case INTERSECTION_UNION:
+			return min(a, b);
+		case INTERSECTION_SUBTRACT:
+			return max(-a, b);
+		case INTERSECTION_INTERSECTION:
+			return max(a, b);
+		default:
+			return 0.0; // Default case if no intersection type matches
+	}
+}
+
+float sdf(vec3 pos) {
+
+	float current_distance = sdf_type(objects[0].shape, vec3(objects[0].model_matrix * vec4(pos, 1.0)));
+
+	for (int i = 1; i < object_count; i++) {
+		current_distance = intersect(objects[i].intersection_type, current_distance, sdf_type(objects[i].shape, vec3(objects[i].model_matrix * vec4(pos, 1.0))));
+	}
+
+	return current_distance;
+}
 
 vec3 march(vec3 start, vec3 end) {
 
@@ -104,7 +146,7 @@ vec3 march(vec3 start, vec3 end) {
 		t += d;
 		position += direction * d;
 
-		if (d < EPSILON * min(pow(10.0f, t * 4.0f), dist)) {
+		if (d < EPSILON * min(pow(10.0f, t * 8.0f), dist)) {
 			return position;
 		}
 	}
@@ -115,7 +157,7 @@ vec3 march(vec3 start, vec3 end) {
 
 // extracts normal at position using tetrahedral sampling 
 vec3 get_normal(vec3 pos) {
-    vec3 d1 = vec3( 1, -1, -1);
+	vec3 d1 = vec3( 1, -1, -1);
     vec3 d2 = vec3(-1, -1,  1);
     vec3 d3 = vec3(-1,  1, -1);
     vec3 d4 = vec3( 1,  1,  1);

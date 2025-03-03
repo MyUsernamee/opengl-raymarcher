@@ -11,6 +11,9 @@ using namespace glm;
 vec3 max(vec3 a, float b) {
   return vec3(max(a.x, b), max(a.y, b), max(a.z, b));
 }
+vec3 min(vec3 a, float b) {
+  return vec3(min(a.x, b), min(a.y, b), min(a.z, b));
+}
 vec3 mod(vec3 a, float b) {
 	return vec3(
 		std::fmod(a.x, b),
@@ -19,14 +22,43 @@ vec3 mod(vec3 a, float b) {
 	);
 }
 
+#include "../shared/object.h"
+
+static std::vector<Object> objects;
+static size_t object_count;
+
 #include <cmath>
 #include "../shared/march.h"
 
 int main() {
 	if (!window.init_window()) return 1;
 
+	objects = {
+	    Object{SDF_SPHERE, INTERSECTION_UNION, mat4(1.0)}};
+	object_count = objects.size();
+
+
+	for (const auto& obj : objects) {
+		printf("Object Type: %d\n", obj.shape);
+		printf("Object Operation: %d\n", obj.intersection_type);
+		printf("Object Matrix:\n");
+		const float* matrix = (const float*)glm::value_ptr(obj.model_matrix);
+		for (int i = 0; i < 4; ++i) {
+			for (int j = 0; j < 4; ++j) {
+				printf("%f ", matrix[i * 4 + j]);
+			}
+			printf("\n");
+		}
+		printf("\n");
+	}
+
+	window.set_uniform_buffer("ObjectBlock", (void *)objects.data(),
+				  objects.size() * sizeof(Object));
+	window.set_uniform("object_count", (int)objects.size());
+
 	// define callbacks
-	// TODO: is this dogshit?
+	// TODO: is this dogshit? 
+	// Ngl yea. We should probably move this into the window somehow.
 	glfwSetCursorPosCallback(window.window, [](GLFWwindow* window, double x_pos, double y_pos){
 		player.mouse_callback(window, x_pos, y_pos);
 	});

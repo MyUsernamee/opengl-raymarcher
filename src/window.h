@@ -27,6 +27,7 @@ struct Shader {
 struct Window {
 	GLFWwindow* window;
 	GLuint program_id;
+	GLuint buffer_id;
 	size_t frame;
 	int width = 800;
 	int height = 400;
@@ -48,7 +49,9 @@ struct Window {
     void set_uniform(const char *key, glm::vec3 value);
     void set_uniform(const char *key, glm::mat3x3 value);
 
-	~Window();
+    void set_uniform_buffer(const char *key, void *buffer, size_t size);
+
+    ~Window();
 };
 
 

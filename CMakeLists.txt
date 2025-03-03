@@ -31,18 +31,11 @@ foreach(shader_file ${SHADER_FILES})
 	string(TOUPPER ${shader_name} shader_name_upper)	# toupper
 	file(READ ${shader_file} shader_code)
 
-	set(VERSION_DIRECTIVE "")
-	string(REGEX MATCH "#version ([^\n]*)" version "${shader_code}")	
-	string(REGEX REPLACE "#version ([^\n]*)" "" shader_code "${shader_code}")
+	string(REPLACE "#include" "${shader_include_source}" shader_code "${shader_code}")
 
 
-	set(final_file "")
-	string(APPEND final_file "${version}\n")
-	string(APPEND final_file "${shader_include_source}\n")
-	string(APPEND final_file "${shader_code}\n")
-	string(STRIP "${final_file}" final_file)
 	
-    set(header_content "#define SHADER_${shader_name_upper} R\"(${final_file})\"")
+    set(header_content "#define SHADER_${shader_name_upper} R\"(${shader_code})\"")
     file(WRITE ${SHADER_OUT_DIR}/${shader_name}.h "${header_content}")
 endforeach()
 

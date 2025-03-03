@@ -3,6 +3,16 @@
 
 #define EPSILON 0.0001f
 
+struct Material {
+	vec3 color;
+};
+
+struct Object {
+	
+	Material material;
+	mat4 model_matrix;
+};
+
 float sdf(vec3 pos) {
     vec3 z = pos;
     float dr = 1.0;

@@ -13,7 +13,7 @@ set(SHARED_DIR ${CMAKE_SOURCE_DIR}/shared)
 
 # actual includes
 set(PROJECT_LIBRARIES glfw)
-set(PROJECT_INCLUDES include;glm;glfw/include;${SHADER_OUT_DIR})
+set(PROJECT_INCLUDES include;glm;glfw/include;${SHADER_OUT_DIR};${SHARED_DIR})
 
 file (GLOB_RECURSE SHADER_INCLUDES "${SHARED_DIR}/*.h")
 set(shader_include_source "")

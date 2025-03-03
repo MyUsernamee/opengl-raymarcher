@@ -6,16 +6,21 @@
 // returns true on success, false otherwise
 bool Window::init_window() {
 	glfwInit();
-	//glfwWindowHint(GLFW_RESIZABLE, 0);	// TODO: fix me
+	glfwWindowHint(GLFW_RESIZABLE, 0);	// TODO: fix me
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	glfwWindowHint(GLFW_OPENGL_COMPAT_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	window = glfwCreateWindow(width, height, "Raymarcher", nullptr, nullptr);
 	glfwMakeContextCurrent(window);
 	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
+	
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		DEBUG_PRINT("ERROR: Failed to load glad");
 		return false;
 	}
+	printf("%s\n", glGetString(GL_VERSION));
 
 	if (!init_shaders()) {
 	    DEBUG_PRINT("ERROR: Failed to load shaders");

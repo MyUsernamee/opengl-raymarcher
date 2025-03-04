@@ -14,9 +14,8 @@ using namespace glm;
 struct Player {
 	vec2 prev_mouse;
 	quat rotation = quat(1, 0, 0, 0);
-	vec3 pos = vec3(-1.2, 0, 0);
+	vec3 pos = vec3(-1., 0, 0.5);
 	vec3 velocity = vec3(0.0);
-	float scale = 1.0;
 	std::map<int, bool>
 	    key_down_map; // TODO: bitmask w/ enum may be quicker lookup
 
@@ -25,7 +24,7 @@ struct Player {
 	vec3 get_forward();
 	vec3 get_right();
 	vec3 get_up();
-	void process_movement(float dist);
+	void process_movement(float dist, float dt);
 	void mouse_callback(GLFWwindow* window, double x_pos, double y_pos);
 	void key_callback(int key, int scancode, int action, int mods);
 	bool is_key_down(int key);

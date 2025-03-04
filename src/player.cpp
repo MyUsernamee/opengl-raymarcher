@@ -1,4 +1,7 @@
 #include "player.h"
+#include <cmath>
+
+#define GRAVITY -0.01f
 
 mat3x3 Player::get_rotation_matrix() {
 	return toMat3(rotation);
@@ -14,25 +17,12 @@ vec3 Player::get_right() {
 
 vec3 Player::get_up() { return rotation * vec3(0, 0, 1); }
 
-void Player::process_movement(float dist) {
-	float speed = is_key_down(GLFW_KEY_LEFT_SHIFT) ? 0.3f : 0.1f;	// sprint
-	speed *= clamp(dist, 0.0001f, 0.1f);
+void Player::process_movement(float dist, float dt) {
+	pos += velocity * dt;
+	velocity += normalize(pos) * GRAVITY * dt;
 
-	if(is_key_down(GLFW_KEY_W)) {
-		pos += get_forward() * speed;
-	}
-
-	if (is_key_down(GLFW_KEY_A)) {
-		pos += get_right() * -speed;
-	}
-
-	if (is_key_down(GLFW_KEY_S)) {
-		pos += get_forward() * -speed;
-	}
-
-	if (is_key_down(GLFW_KEY_D)) {
-		pos += get_right() * speed;
-	}
+	velocity -= dot(velocity, get_up()) * get_up();
+	velocity -= dot(velocity, get_right()) * get_right();
 }
 
 void Player::mouse_callback(GLFWwindow *window, double dx_pos, double dy_pos) {
@@ -48,8 +38,8 @@ void Player::mouse_callback(GLFWwindow *window, double dx_pos, double dy_pos) {
 
 	prev_mouse = vec2(x_pos, y_pos);
 
-    quat q_pitch = angleAxis(delta_y, get_right());  // Pitch
-    quat q_yaw   = angleAxis(delta_x, get_up());  // Yaw
+    quat q_pitch = angleAxis(-delta_y, get_right());  // Pitch
+    quat q_yaw   = angleAxis(-delta_x, get_forward());  // Yaw
 
     // yaw * rotation * pitch for camera-style rotation
     rotation = q_yaw * q_pitch * rotation;

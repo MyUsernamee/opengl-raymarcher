@@ -33,6 +33,8 @@ struct Window {
 	size_t frame;
 	int width = 800;
 	int height = 400;
+	float last_time = 0.0;
+	float delta_time = 0.0;
 	std::vector<GLuint> shader_ids;
     std::vector<Shader> shader_sources;
 
@@ -53,6 +55,7 @@ struct Window {
 
 	void lock_mouse();
 	void unlock_mouse();
+
 
 	// Polls events, swaps the buffers and waits for the next frame.
 	void end_frame();

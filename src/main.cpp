@@ -71,18 +71,17 @@ int main() {
 
 	});
 
-	    // when window is resized
-	    glfwSetWindowSizeCallback(window.window,
-				      [](GLFWwindow *_, int width, int height) {
-					window.width = width;
-					window.height = height;
-					glViewport(0, 0, width, height);
-				      });
+	// when window is resized
+	glfwSetWindowSizeCallback(window.window, [](GLFWwindow *_, int width, int height) {
+		window.width = width;
+		window.height = height;
+		glViewport(0, 0, width, height);
+	});					
 
 	// main game loop (move if needed)
 	while (!window.should_close()) {
 		// player stuff
-		player.process_movement(sdf(player.pos));
+		player.process_movement(sdf(player.pos), window.delta_time);
 		// TODO: maybe abstract into window (renderer) class?
 		//window.set_uniform("time", (float)glfwGetTime());
 		window.set_uniform("eye_pos", player.pos);

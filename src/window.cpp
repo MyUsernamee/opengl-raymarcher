@@ -197,6 +197,10 @@ void Window::draw_quad() {
 void Window::end_frame() {
 	glfwSwapBuffers(window);
 	glfwPollEvents();
+
+	delta_time = glfwGetTime() - last_time;
+	last_time = glfwGetTime();
+
 }
 
 // sometimes the best solutions are the simplest

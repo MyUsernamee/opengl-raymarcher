@@ -33,6 +33,7 @@ int main() {
 	if (!window.init_window()) return 1;
 
 	add_object(create_object(SDF_MANDLEBROT));
+	update_gpu_objects();
 
 	// define callbacks
 	// TODO: is this dogshit? 

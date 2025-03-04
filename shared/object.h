@@ -21,7 +21,7 @@ struct Object {
 
 #ifdef CPP
 static Object objects[MAX_OBJECTS];
-static size_t object_count;
+static size_t object_count = 0;
 
 // Utility functions that won't be used on the gpu
 Object create_object(int shape, int intersection_type=INTERSECTION_UNION, vec3 position = vec3(0.0), mat3 rotation = mat3(1.0), float scale=1.0f) 
@@ -47,7 +47,7 @@ void update_gpu_objects() {
 
 Object *get_object(int index) { return objects+index; }
 void set_object(int index, Object object) {
-	if (index > object_count)
+	if (index >= object_count)
 		return;
 	objects[index] = object;
 }

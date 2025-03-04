@@ -87,7 +87,7 @@ int main() {
 		window.height = height;
 
 		glBindTexture(GL_TEXTURE_2D, window.small_texture);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width / 4, height / 4, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width / PIXEL_SCALE, height / PIXEL_SCALE, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 	});					
 
 	// main game loop (move if needed)

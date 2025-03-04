@@ -11,6 +11,7 @@
 
 #include <map>
 
+#define PIXEL_SCALE 2
 
 // Meant to abstract all glfw and opengl away and handling rendering.
 // Any opengl or glfw calls should be handled through

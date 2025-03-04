@@ -35,7 +35,7 @@ bool Window::init_window() {
 
 	glGenTextures(1, &small_texture);
 	glBindTexture(GL_TEXTURE_2D, small_texture );
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width / 4, height / 4, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width / PIXEL_SCALE, height / PIXEL_SCALE, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
@@ -91,7 +91,7 @@ void Window::draw_quad() {
 void Window::start_frame() {
 
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, small_buffer);	
-	glViewport(0, 0, width / 4, height / 4);
+	glViewport(0, 0, width / PIXEL_SCALE, height / PIXEL_SCALE);
 
 }
 

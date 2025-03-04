@@ -16,7 +16,7 @@ layout(std140) uniform ObjectBlock {
 };
 
 #include <march.h>
-
+#include <lighting.h>
 
 void main() {
 
@@ -31,9 +31,9 @@ void main() {
 	
 	vec3 hit_pos = march_data.position;
 	if (hit_pos != end) {
-		vec3 normal = get_normal(hit_pos);
-		float shadow = exp(-march_data.steps / 100.0);// shadow(hit_pos, normalize(vec3(-1, -1, 1)), 0.01, 1, 8);
-		FragColor = vec4(normal * 0.5 + 0.5, 1.0) * shadow;
+		vec3 hit_normal = get_normal(hit_pos);
+		float shadow = shadow(hit_pos, 0.01, 10, 8) *1 + 0.0;
+		FragColor = vec4(phong(hit_pos, hit_normal, ray_direction) * shadow, 1.0);
 	} else {
 		FragColor = vec4(0.0, 0.0, 0.0, 1.0);
 	}

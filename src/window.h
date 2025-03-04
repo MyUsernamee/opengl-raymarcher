@@ -2,6 +2,7 @@
 
 #include "debug.h"
 #include "glad/glad.h"
+#include "shader_program.h"
 
 #include <vector>
 #include <GLFW/glfw3.h>
@@ -18,11 +19,14 @@ struct Window {
 	GLFWwindow* window;
 	GLuint vbo;
 	GLuint vao;
+	GLuint small_buffer; // Small framebuffer that we scale up.
+	GLuint small_texture;
 	size_t frame;
 	int width = 800;
 	int height = 400;
 	float last_time = 0.0;
 	float delta_time = 0.0;
+	ShaderProgram shader_scale;
 
     bool mouse_locked = false;
 
@@ -41,6 +45,7 @@ struct Window {
 
 	// Polls events, swaps the buffers and waits for the next frame.
 	void end_frame();
+	void start_frame();
     ~Window();
 };
 

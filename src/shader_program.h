@@ -19,13 +19,13 @@ private:
 
 	// Creates a shader and compiles it with a given type
 	static GLuint compile_shader(GLenum shader_type, std::string source);
-	static bool check_compile_error(GLuint shader_id);
-	static bool check_program_error(GLenum type, GLuint program_id);
+	static bool check_compile_error(GLuint shader_id); // Checks if there was a compile error then prints and returns false if there was.
+	static bool check_program_error(GLenum type, GLuint program_id); // Same as above but for programs.
 
 public:	
 
 	ShaderProgram(std::string vertex_shader, std::string fragment_shader);
-	ShaderProgram();
+	ShaderProgram(); // Not used, empty.
 
 	bool compile();
 	void add_uniform_buffer();

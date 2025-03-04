@@ -85,7 +85,9 @@ int main() {
 	glfwSetWindowSizeCallback(window.window, [](GLFWwindow *_, int width, int height) {
 		window.width = width;
 		window.height = height;
-		glViewport(0, 0, width, height);
+
+		glBindTexture(GL_TEXTURE_2D, window.small_texture);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width / 4, height / 4, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 	});					
 
 	// main game loop (move if needed)
@@ -94,6 +96,10 @@ int main() {
 		player.process_movement(sdf(player.pos), window.delta_time);
 		// TODO: maybe abstract into window (renderer) class?
 		//window.set_uniform("time", (float)glfwGetTime());
+
+		window.start_frame();
+		ray_marcher_program->use();
+
 		ray_marcher_program->set_uniform("eye_pos", player.pos);
 		ray_marcher_program->set_uniform("rotation", player.get_rotation_matrix());
 		ray_marcher_program->set_uniform("aspect_ratio", (float)window.width / (float)window.height);

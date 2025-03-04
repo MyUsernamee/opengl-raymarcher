@@ -2,6 +2,7 @@
 
 #include "vs_test.h" // SHADER_VS_TEST
 #include "ps_test.h" // SHADER_PS_TEST
+#include "ps_scale.h"
 
 const glm::vec2 verticies[4] {
 	glm::vec2(-1.0f, -1.0f),
@@ -28,8 +29,26 @@ bool Window::init_window() {
 	}
 	glEnable(GL_DEBUG_OUTPUT);
 
+	shader_scale = ShaderProgram(SHADER_VS_TEST, SHADER_PS_SCALE);
+
+	glGenFramebuffers(1, &small_buffer);
+
+	glGenTextures(1, &small_texture);
+	glBindTexture(GL_TEXTURE_2D, small_texture );
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width / 4, height / 4, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, small_buffer);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, small_texture, 0);	
+
+	if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+		DEBUG_PRINT("BUFFER NOT DONE.");
+	}
 
 	// Create buffer for the uniform buffer for objects.
+
+
 
 	return window != nullptr;
 }
@@ -69,7 +88,23 @@ void Window::draw_quad() {
 
 }
 
+void Window::start_frame() {
+
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, small_buffer);	
+	glViewport(0, 0, width / 4, height / 4);
+
+}
+
 void Window::end_frame() {
+
+	shader_scale.use();
+
+	glViewport(0, 0, width, height);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	glBindTexture(GL_TEXTURE_2D, small_texture);
+
+	draw_quad();
+
 	glfwSwapBuffers(window);
 	glfwPollEvents();
 

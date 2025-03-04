@@ -13,7 +13,7 @@ float mandlebrot_sdf(vec3 pos) {
     vec3 z = pos;
     float dr = 1.0;
     float r = 0.0;
-    const int iterations = 32;
+    const int iterations = 8;
     const float power = 8.0;
     
     for (int i = 0; i < iterations; i++) {
@@ -164,13 +164,13 @@ MarchData march(vec3 start, vec3 end) {
 
 	// TODO: AVOID DYNAMIC LOOPS!!!
 
-	for (it = 0; it < 1e10 && d < dist; it++) {
+	for (it = 0; it < 256 && d < dist; it++) {
 
 		d = sdf(position);
 		t += d;
 		position += direction * d;
 
-		if (d < EPSILON * min(pow(EPSILON_FALL_OFF_POWER, t * EPSILON_FALL_OFF_SCALE), dist)) {
+		if (d < EPSILON * clamp(pow(t * EPSILON_FALL_OFF_SCALE, EPSILON_FALL_OFF_POWER), 1.0f, dist)) {
             data.position = position;
             data.t = t;
             data.steps = it;

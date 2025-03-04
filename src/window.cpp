@@ -11,7 +11,7 @@ const glm::vec2 verticies[4] {
 };
 bool Window::init_window() {
 	glfwInit();
-	glfwWindowHint(GLFW_RESIZABLE, 1);	// TODO: fix me
+	//glfwWindowHint(GLFW_RESIZABLE, 0);	// TODO: fix me
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);

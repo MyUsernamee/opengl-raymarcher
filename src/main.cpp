@@ -3,10 +3,7 @@
 #include <stdio.h>
 #define CPP
 #include "../shared/object.h"
-#include <cmath>
-
-static std::vector<Object> objects;
-static size_t object_count;
+#include <cmath> 
 
 // must be global so they can be accessed via callbacks
 static Player player;
@@ -33,16 +30,6 @@ vec3 mod(vec3 a, float b) {
 
 int main() {
 	if (!window.init_window()) return 1;
-
-	objects = {
-		create_object(SDF_MANDLEBROT),
-		create_object(SDF_SPHERE, INTERSECTION_SUBTRACT)};
-	object_count = objects.size();
-
-	window.set_uniform_buffer("ObjectBlock", (void *)objects.data(),
-				  objects.size() * sizeof(Object));
-	window.set_uniform("object_count", (int)objects.size());
-
 	// define callbacks
 	// TODO: is this dogshit? 
 	// Ngl yea. We should probably move this into the window somehow.

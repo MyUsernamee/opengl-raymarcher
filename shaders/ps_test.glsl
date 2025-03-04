@@ -12,7 +12,7 @@ uniform float aspect_ratio; // width / height
 
 uniform int object_count;
 layout(std140) uniform ObjectBlock {
-    Object objects[32];
+    Object objects[MAX_OBJECTS];
 };
 
 #include <march.h>

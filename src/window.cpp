@@ -11,7 +11,7 @@ const glm::vec2 verticies[4] {
 };
 bool Window::init_window() {
 	glfwInit();
-	glfwWindowHint(GLFW_RESIZABLE, 0);	// TODO: fix me
+	glfwWindowHint(GLFW_RESIZABLE, 1);	// TODO: fix me
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -35,6 +35,8 @@ bool Window::init_window() {
 	// Creates a vertex attribute array (needed to draw the vertices).
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
+
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	if (!init_shaders()) {
 	    DEBUG_PRINT("ERROR: Failed to load shaders");
@@ -236,4 +238,13 @@ Window::~Window() {
 
 	glfwDestroyWindow(window);
 	glfwTerminate();
+}
+
+void Window::lock_mouse() {
+	mouse_locked = true;
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+}
+void Window::unlock_mouse() {
+	mouse_locked = false;
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 }

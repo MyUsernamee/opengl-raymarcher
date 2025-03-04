@@ -43,15 +43,41 @@ int main() {
 	});
 
 	glfwSetKeyCallback(window.window, [](GLFWwindow* _, int key, int scancode, int action, int mods) {
+
+		if (key == GLFW_KEY_ESCAPE) {
+			window.unlock_mouse();
+		}
+
 		player.key_callback(key, scancode, action, mods);
 	});
 
-	// when window is resized
-	glfwSetWindowSizeCallback(window.window, [](GLFWwindow* _, int width, int height) {
-		window.width = width;
-		window.height = height;
-		glViewport(0, 0, width, height);
+	glfwSetMouseButtonCallback(
+	    window.window,
+	    [](GLFWwindow *_, int button, int action, int mods) {
+
+
+			if (button == GLFW_MOUSE_BUTTON_1 && !window.mouse_locked) {
+				window.lock_mouse();
+			}
+
+			if (button == GLFW_MOUSE_BUTTON_2 && action == GLFW_PRESS) {
+			  auto data =
+			      march(player.pos, player.get_forward() * 1000.0f);
+			  add_object(
+			      create_object(SDF_SPHERE, INTERSECTION_UNION_SMOOTH,
+					    data.position, mat3(1.0), 0.01f));
+			  update_gpu_objects();
+			}
+
 	});
+
+	    // when window is resized
+	    glfwSetWindowSizeCallback(window.window,
+				      [](GLFWwindow *_, int width, int height) {
+					window.width = width;
+					window.height = height;
+					glViewport(0, 0, width, height);
+				      });
 
 	// main game loop (move if needed)
 	while (!window.should_close()) {

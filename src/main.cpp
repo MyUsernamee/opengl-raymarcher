@@ -1,11 +1,15 @@
 #include "player.h"
 #include "window.h"
+#include "shader_program.h"
+#include "vs_test.h"
+#include "ps_test.h"
 #include <stdio.h>
 #include <cmath> 
 
 // must be global so they can be accessed via callbacks
 
 #define CPP
+ShaderProgram* ray_marcher_program;
 static Player player;
 static Window window;
 #include "../shared/object.h"
@@ -31,6 +35,12 @@ vec3 mod(vec3 a, float b) {
 
 int main() {
 	if (!window.init_window()) return 1;
+	window.gen_quad();
+
+	ray_marcher_program = new ShaderProgram(SHADER_VS_TEST, SHADER_PS_TEST);
+	ray_marcher_program->add_uniform_buffer();
+	ray_marcher_program->use();
+
 
 	add_object(create_object(SDF_MANDLEBROT));
 	update_gpu_objects();
@@ -84,11 +94,11 @@ int main() {
 		player.process_movement(sdf(player.pos), window.delta_time);
 		// TODO: maybe abstract into window (renderer) class?
 		//window.set_uniform("time", (float)glfwGetTime());
-		window.set_uniform("eye_pos", player.pos);
-		window.set_uniform("rotation", player.get_rotation_matrix());
-		window.set_uniform("aspect_ratio", (float)window.width / (float)window.height);
+		ray_marcher_program->set_uniform("eye_pos", player.pos);
+		ray_marcher_program->set_uniform("rotation", player.get_rotation_matrix());
+		ray_marcher_program->set_uniform("aspect_ratio", (float)window.width / (float)window.height);
 		
-		window.clear(0.0, 0.0, 0.0);
+		window.clear(1.0, 0.0, 0.0);
 
 		window.draw_quad();
 

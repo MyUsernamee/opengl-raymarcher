@@ -42,9 +42,9 @@ Object create_object(int shape, int intersection_type=INTERSECTION_UNION, vec3 p
 }
 
 void update_gpu_objects() {
-	window.set_uniform_buffer("ObjectBlock", (void *)objects,
+	ray_marcher_program->set_uniform_buffer("ObjectBlock", (void *)objects,
 				  object_count * sizeof(Object));
-	window.set_uniform("object_count", (int)object_count);
+	ray_marcher_program->set_uniform("object_count", (int)object_count);
 }
 
 Object *get_object(int index) { return objects+index; }

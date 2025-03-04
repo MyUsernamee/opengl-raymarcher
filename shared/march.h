@@ -1,7 +1,9 @@
 #ifndef MARCH_H
 #define MARCH_H
 
-#define EPSILON 1e-5f
+#define EPSILON 1e-6f
+#define EPSILON_FALL_OFF_POWER 10.0f
+#define EPSILON_FALL_OFF_SCALE 8.0f
 
 struct Material {
 	vec3 color;
@@ -147,7 +149,7 @@ MarchData march(vec3 start, vec3 end) {
 		t += d;
 		position += direction * d;
 
-		if (d < EPSILON * min(pow(10.0f, t * 16.0f), dist)) {
+		if (d < EPSILON * min(pow(EPSILON_FALL_OFF_POWER, t * EPSILON_FALL_OFF_SCALE), dist)) {
             data.position = position;
             data.t = t;
             data.steps = it;

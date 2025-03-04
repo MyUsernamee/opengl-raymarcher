@@ -1,13 +1,14 @@
 #include "player.h"
 #include "window.h"
 #include <stdio.h>
-#define CPP
-#include "../shared/object.h"
 #include <cmath> 
 
 // must be global so they can be accessed via callbacks
+
+#define CPP
 static Player player;
 static Window window;
+#include "../shared/object.h"
 
 using namespace glm;
 
@@ -30,6 +31,9 @@ vec3 mod(vec3 a, float b) {
 
 int main() {
 	if (!window.init_window()) return 1;
+
+	add_object(create_object(SDF_MANDLEBROT));
+
 	// define callbacks
 	// TODO: is this dogshit? 
 	// Ngl yea. We should probably move this into the window somehow.

@@ -64,7 +64,7 @@ int main() {
 			  auto data =
 			      march(player.pos, player.get_forward() * 1000.0f);
 			  add_object(
-			      create_object(SDF_SPHERE, INTERSECTION_UNION_SMOOTH,
+			      create_object(SDF_SPHERE, INTERSECTION_UNION,
 					    data.position, mat3(1.0), 0.01f));
 			  update_gpu_objects();
 			}

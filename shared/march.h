@@ -1,7 +1,7 @@
 #ifndef MARCH_H
 #define MARCH_H
 
-#define EPSILON 1e-6f
+#define EPSILON 2e-5f
 #define EPSILON_FALL_OFF_POWER 4.0f
 #define EPSILON_FALL_OFF_SCALE 8.0f
 
@@ -67,7 +67,7 @@ float julia_sdf(vec3 p) {
     return 0.5 * log(r) * r / dr;
 }
 
-float sphere_sdf(vec3 pos) { return length(pos) - 1.0; }
+float sphere_sdf(vec3 pos) { return sqrt(dot(pos, pos)) - 1.0; }
 
 // Smooth maximum using polynomial interpolation.
 float smoothMaxPoly(float a, float b, float k) {

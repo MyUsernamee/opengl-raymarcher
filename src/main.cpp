@@ -12,7 +12,7 @@
 ShaderProgram* ray_marcher_program;
 static Player player;
 static Window window;
-#include "../shared/object.h"
+#include "object.h"
 
 using namespace glm;
 
@@ -31,7 +31,7 @@ vec3 mod(vec3 a, float b) {
 }
 
 
-#include "../shared/march.h"
+#include "march.h"
 
 int main() {
 	if (!window.init_window()) return 1;

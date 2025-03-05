@@ -14,7 +14,7 @@ using namespace glm;
 struct Player {
 	vec2 prev_mouse;
 	quat rotation = quat(1, 0, 0, 0);
-	vec3 pos = vec3(-1., 0, 0.5);
+	vec3 pos = vec3(0.0, 0, 1.2);
 	vec3 velocity = vec3(0.0);
 	std::map<int, bool>
 	    key_down_map; // TODO: bitmask w/ enum may be quicker lookup

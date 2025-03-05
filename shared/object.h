@@ -42,6 +42,7 @@ Object create_object(int shape, int intersection_type=INTERSECTION_UNION, vec3 p
 }
 
 void update_gpu_objects() {
+	ray_marcher_program->use();
 	ray_marcher_program->set_uniform_buffer("ObjectBlock", (void *)objects,
 				  object_count * sizeof(Object));
 	ray_marcher_program->set_uniform("object_count", (int)object_count);

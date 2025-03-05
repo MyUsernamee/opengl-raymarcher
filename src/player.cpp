@@ -58,8 +58,8 @@ void Player::mouse_callback(GLFWwindow *window, double dx_pos, double dy_pos) {
 
 	prev_mouse = vec2(x_pos, y_pos);
 
-    quat q_pitch = angleAxis(-delta_y, get_right());  // Pitch
-    quat q_yaw   = angleAxis(-delta_x, get_forward());  // Yaw
+    quat q_pitch = angleAxis(-delta_y, vec3(0.0, 1.0, 0.0));  // Pitch
+    quat q_yaw   = angleAxis(delta_x, vec3(0.0, 0.0, 1.0));  // Yaw
 
     // yaw * rotation * pitch for camera-style rotation
     rotation = q_yaw * q_pitch * rotation;

@@ -19,7 +19,7 @@ vec3 Player::get_up() { return rotation * vec3(0, 0, 1); }
 
 void Player::process_movement(float dist, float dt) {
 	pos += velocity * dt;
-	velocity += normalize(pos) * GRAVITY * dt;
+	velocity += vec3(0.0, 0.0, 1.0) * GRAVITY * dt;
 
 	velocity -= dot(velocity, get_up()) * get_up();
 	velocity -= dot(velocity, get_right()) * get_right();

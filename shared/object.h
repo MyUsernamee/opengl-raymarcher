@@ -1,5 +1,5 @@
 
-#define MAX_OBJECTS 32
+#define MAX_OBJECTS 256
 
 #define INTERSECTION_UNION 0
 #define INTERSECTION_SUBTRACT 1
@@ -56,6 +56,8 @@ void set_object(int index, Object object) {
 }
 
 void add_object(Object object) { 
+	if (object_count >= MAX_OBJECTS)
+		return;
 	object_count++;
 	set_object(object_count - 1, object);
 }

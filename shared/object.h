@@ -4,6 +4,8 @@
 #define INTERSECTION_UNION 0
 #define INTERSECTION_SUBTRACT 1
 #define INTERSECTION_INTERSECTION 2
+#define INTERSECTION_UNION_SMOOTH 3
+#define INTERSECTION_SUBTRACTION_SMOOTH 4
 
 #define SDF_SPHERE 0
 #define SDF_BOX 1
@@ -40,9 +42,9 @@ Object create_object(int shape, int intersection_type=INTERSECTION_UNION, vec3 p
 }
 
 void update_gpu_objects() {
-	window.set_uniform_buffer("ObjectBlock", (void *)objects,
+	ray_marcher_program->set_uniform_buffer("ObjectBlock", (void *)objects,
 				  object_count * sizeof(Object));
-	window.set_uniform("object_count", (int)object_count);
+	ray_marcher_program->set_uniform("object_count", (int)object_count);
 }
 
 Object *get_object(int index) { return objects+index; }

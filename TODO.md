@@ -1,0 +1,8 @@
+- [] Add up indicator.
+- [] Add collision
+- [] Add friction to flying
+- [] Make third person?
+- [] Add scoring system.
+- [] Level generation?
+- [] Optimize rendering.
+- [] 

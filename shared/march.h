@@ -66,7 +66,7 @@ float julia_sdf(vec3 p) {
     return 0.5 * log(r) * r / dr;
 }
 
-float sphere_sdf(vec3 pos) { return length(pos) - 1.0; }
+float sphere_sdf(vec3 pos) { return sqrt(dot(pos, pos)) - 1.0; }
 
 // Smooth maximum using polynomial interpolation.
 float smoothMaxPoly(float a, float b, float k) {
@@ -74,10 +74,12 @@ float smoothMaxPoly(float a, float b, float k) {
     return mix(b, a, h) + k * h * (1.0 - h);
 }
 
-// Smooth minimum using polynomial interpolation.
-float smoothMinPoly(float a, float b, float k) {
-    float h = clamp(0.5 - 0.5 * (b - a) / k, 0.0, 1.0);
-    return mix(b, a, h) - k * h * (1.0 - h);
+// exponential
+// quadratic polynomial
+float smin( float a, float b, float k )
+{
+    float h = clamp( 0.5+0.5*(b-a)/k, 0.0, 1.0 );
+    return mix( b, a, h ) - k*h*(1.0-h);
 }
 
 float box_sdf(vec3 pos) {
@@ -107,6 +109,10 @@ float intersect(int intersection_type, float a, float b) {
 			return max(-a, b);
 		case INTERSECTION_INTERSECTION:
 			return max(a, b);
+		case INTERSECTION_UNION_SMOOTH:
+			return smin(a, b, 0.001);
+		case INTERSECTION_SUBTRACTION_SMOOTH:
+			return smin(-a, b, -0.001);
 		default:
 			return 0.0; // Default case if no intersection type matches
 	}
@@ -114,10 +120,25 @@ float intersect(int intersection_type, float a, float b) {
 
 float sdf(vec3 pos) {
 
-	float current_distance = sdf_type(objects[0].shape, vec3(inverse(objects[0].model_matrix) * vec4(pos, 1.0)));
+	mat4 model_matrix = objects[0].model_matrix;
+
+	vec3 position_transformed = vec3(inverse(model_matrix) * vec4(pos, 1.0));
+	float scale = length(position_transformed) / length(pos - vec3(model_matrix[3]));
+
+	float current_distance =
+	    sdf_type(objects[0].shape,
+		     vec3(inverse(objects[0].model_matrix) * vec4(pos, 1.0))) / scale;
 
 	for (int i = 1; i < object_count; i++) {
-		current_distance = intersect(objects[i].intersection_type, sdf_type(objects[i].shape, vec3(inverse(objects[i].model_matrix) * vec4(pos, 1.0))), current_distance);
+		mat4 model_matrix = objects[i].model_matrix;
+		vec3 position_transformed =
+		    vec3(vec4(inverse(model_matrix) * vec4(pos, 1.0)));
+		float scale = length(position_transformed) /
+			      length(pos - vec3(model_matrix[3]));
+
+		float distance = sdf_type(objects[i].shape, position_transformed) / scale;
+
+		current_distance = intersect(objects[i].intersection_type, distance, current_distance);
 	}
 
 	return current_distance;

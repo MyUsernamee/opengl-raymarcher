@@ -3,6 +3,7 @@
 #include "debug.h"
 #include "glad/glad.h"
 #include "shader_program.h"
+#include "frame_buffer.h"
 
 #include <vector>
 #include <GLFW/glfw3.h>
@@ -20,8 +21,7 @@ struct Window {
 	GLFWwindow* window;
 	GLuint vbo;
 	GLuint vao;
-	GLuint small_buffer; // Small framebuffer that we scale up.
-	GLuint small_texture;
+	FrameBuffer small_frame_buffer;
 	size_t frame;
 	int width = 800;
 	int height = 400;

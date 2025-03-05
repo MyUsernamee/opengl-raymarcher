@@ -31,23 +31,12 @@ bool Window::init_window() {
 
 	shader_scale = ShaderProgram(SHADER_VS_TEST, SHADER_PS_SCALE);
 
-	glGenFramebuffers(1, &small_buffer);
-
-	glGenTextures(1, &small_texture);
-	glBindTexture(GL_TEXTURE_2D, small_texture );
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width / PIXEL_SCALE, height / PIXEL_SCALE, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, small_buffer);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, small_texture, 0);	
-
 	if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
 		DEBUG_PRINT("BUFFER NOT DONE.");
 	}
 
 	// Create buffer for the uniform buffer for objects.
-
+	small_frame_buffer = FrameBuffer(width / PIXEL_SCALE, height / PIXEL_SCALE, GL_NEAREST);
 
 
 	return window != nullptr;
@@ -90,7 +79,7 @@ void Window::draw_quad() {
 
 void Window::start_frame() {
 
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, small_buffer);	
+	small_frame_buffer.use();
 	glViewport(0, 0, width / PIXEL_SCALE, height / PIXEL_SCALE);
 
 }
@@ -101,7 +90,7 @@ void Window::end_frame() {
 
 	glViewport(0, 0, width, height);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-	glBindTexture(GL_TEXTURE_2D, small_texture);
+	small_frame_buffer.draw();
 
 	draw_quad();
 

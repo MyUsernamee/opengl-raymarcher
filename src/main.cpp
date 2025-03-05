@@ -41,7 +41,6 @@ int main() {
 	ray_marcher_program->add_uniform_buffer();
 	ray_marcher_program->use();
 
-
 	add_object(create_object(SDF_MANDLEBROT));
 	update_gpu_objects();
 
@@ -86,7 +85,7 @@ int main() {
 		window.width = width;
 		window.height = height;
 
-		glBindTexture(GL_TEXTURE_2D, window.small_texture);
+		glBindTexture(GL_TEXTURE_2D, window.small_frame_buffer.get_texture());
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width / PIXEL_SCALE, height / PIXEL_SCALE, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 	});					
 

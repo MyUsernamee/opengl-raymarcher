@@ -1,9 +1,8 @@
 #ifndef MARCH_H
 #define MARCH_H
 
-#define EPSILON 0.00002f
-#define EPSILON_FALL_OFF_POWER 1.0f
-#define EPSILON_FALL_OFF_SCALE 100.0f
+#define EPSILON 0.000001f
+#define EPSILON_FALL_OFF_SCALE 2000.0f
 
 struct Material {
 	vec3 color;
@@ -13,7 +12,7 @@ float mandlebrot_sdf(vec3 pos) {
     vec3 z = pos;
     float dr = 1.0;
     float r = 0.0;
-    const int iterations = 8;
+    const int iterations = 16;
     const float power = 8.0;
     
     for (int i = 0; i < iterations; i++) {
@@ -149,7 +148,7 @@ MarchData march(vec3 start, vec3 end) {
 		t += d;
 		position += direction * d;
 
-		if (d < EPSILON * clamp(pow(t * EPSILON_FALL_OFF_SCALE, EPSILON_FALL_OFF_POWER), 1.0f, dist)) {
+		if (d < EPSILON * clamp(t * EPSILON_FALL_OFF_SCALE, 1.0f, dist)) {
             data.position = position;
             data.t = t;
             data.steps = it;

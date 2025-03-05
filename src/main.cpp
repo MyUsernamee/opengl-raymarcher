@@ -65,19 +65,24 @@ int main() {
 	    [](GLFWwindow *_, int button, int action, int mods) {
 
 
-			if (button == GLFW_MOUSE_BUTTON_1 && !window.mouse_locked) {
-				window.lock_mouse();
+			if (button == GLFW_MOUSE_BUTTON_1) {
+				if (!window.mouse_locked) {
+					window.lock_mouse();
+				} else if (action == GLFW_PRESS) {
+					auto data = march(player.pos, player.get_forward() * 10.0f);
+					add_object(create_object(SDF_SPHERE, INTERSECTION_SUBTRACT, data.position, mat3(1.0), 0.01f));
+					update_gpu_objects();
+				}
 			}
 
 			if (button == GLFW_MOUSE_BUTTON_2 && action == GLFW_PRESS) {
 			  auto data =
-			      march(player.pos, player.get_forward() * 1000.0f);
+			      march(player.pos, player.get_forward() * 10.0f);
 			  add_object(
 			      create_object(SDF_SPHERE, INTERSECTION_UNION,
 					    data.position, mat3(1.0), 0.01f));
 			  update_gpu_objects();
 			}
-
 	});
 
 	// when window is resized

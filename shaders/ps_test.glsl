@@ -33,7 +33,8 @@ void main() {
 	if (hit_pos != end) {
 		vec3 hit_normal = get_normal(hit_pos);
 		float shadow = shadow(hit_pos, 0.01, 10, 8);
-		FragColor = vec4(phong(hit_pos, hit_normal, ray_direction) * (shadow) + (hit_normal * exp(-march_data.steps / 20.0)) , 1.0);
+		vec3 diffuse = hit_normal * 0.5 + 0.5;
+		FragColor = vec4(phong(hit_pos, hit_normal, ray_direction) * (shadow) + (diffuse * exp(-march_data.steps / 20.0)) , 1.0);
 	} else {
 		FragColor = vec4(0.0, 0.0, 0.0, 1.0);
 	}

@@ -20,8 +20,7 @@ vec3 phong(vec3 pos, vec3 normal, vec3 view_dir) {
     vec3 reflect_dir = reflect(light_dir, normal);
     
     float ambient = 0.0;
-    vec3 diffuse = vec3(dot(normal, light_dir) * 0.5 + 0.5) * (normal * 0.5 + 0.5);
     float specular = pow(max(dot(view_dir, reflect_dir), 0.0), 32.0);
     
-    return vec3(ambient + specular) + diffuse;
+    return vec3(ambient + specular);
 }

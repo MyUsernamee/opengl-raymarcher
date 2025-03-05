@@ -32,9 +32,10 @@ void main() {
 	vec3 hit_pos = march_data.position;
 	if (hit_pos != end) {
 		vec3 hit_normal = get_normal(hit_pos);
-		float shadow = shadow(hit_pos, 0.01, 10, 8);
+		float dark = shadow(hit_pos, 0.01f, 1.0f, 8);
+		float ao = exp(-march_data.steps / 20.0);
 		vec3 diffuse = hit_normal * 0.5 + 0.5;
-		FragColor = vec4(phong(hit_pos, hit_normal, ray_direction) * (shadow) + (diffuse * exp(-march_data.steps / 20.0)) , 1.0);
+		FragColor = vec4((phong(hit_pos, hit_normal, ray_direction) + (hit_normal * 0.5 + 0.5)) * dark * ao, 1.0);
 	} else {
 		FragColor = vec4(0.0, 0.0, 0.0, 1.0);
 	}
